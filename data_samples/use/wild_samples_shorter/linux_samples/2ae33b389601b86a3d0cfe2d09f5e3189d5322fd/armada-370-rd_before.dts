@@ -1,0 +1,5 @@
+			status = "okay";
+			/* No CD or WP GPIOs */
+		};
+	};
+};

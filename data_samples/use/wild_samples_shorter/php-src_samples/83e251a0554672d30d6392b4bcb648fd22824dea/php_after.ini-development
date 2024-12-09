@@ -1,0 +1,7 @@
+;extension=php_tidy.dll
+;extension=php_xmlrpc.dll
+;extension=php_xsl.dll
+
+;;;;;;;;;;;;;;;;;;;
+; Module Settings ;
+;;;;;;;;;;;;;;;;;;;

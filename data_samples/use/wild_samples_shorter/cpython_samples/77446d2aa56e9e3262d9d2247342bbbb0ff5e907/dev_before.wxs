@@ -1,0 +1,7 @@
+        <Package InstallerVersion="500" Compressed="yes" InstallScope="perUser" />
+        <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+        
+        <PropertyRef Id="UpgradeTable" />
+        
+        <Feature Id="DefaultFeature" AllowAdvertise="no" Title="!(loc.Title)" Description="!(loc.Description)">
+            <ComponentGroupRef Id="dev_include" />

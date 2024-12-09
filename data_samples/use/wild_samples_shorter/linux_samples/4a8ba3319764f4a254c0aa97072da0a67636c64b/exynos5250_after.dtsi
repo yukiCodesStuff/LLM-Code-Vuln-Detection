@@ -1,0 +1,8 @@
+
+	dp_phy: video-phy@10040720 {
+		compatible = "samsung,exynos5250-dp-video-phy";
+		samsung,pmu-syscon = <&pmu_system_controller>;
+		#phy-cells = <0>;
+	};
+
+	dp: dp-controller@145B0000 {

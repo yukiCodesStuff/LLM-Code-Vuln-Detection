@@ -1,0 +1,28 @@
+            test   => {
+                "ExpectedTmpKeyType" => $curve,
+                "ExpectedProtocol" => "TLSv1.2",
+                "ExpectedResult" => "Success"
+            },
+        };
+    }
+    foreach (0..$#curves_tls_1_2) {
+        my $curve = $curves_tls_1_2[$_];
+        push @tests, {
+            name => "curve-${curve}-tls13",
+            server => {
+                "Curves" => $curve,
+                "MaxProtocol" => "TLSv1.3"
+            },
+            client => {
+                "CipherString" => "ECDHE",
+                "MinProtocol" => "TLSv1.3",
+                "Curves" => $curve
+            },
+            test   => {
+                "ExpectedResult" => "ClientFail"
+            },
+        };
+    }
+}
+
+generate_tests();

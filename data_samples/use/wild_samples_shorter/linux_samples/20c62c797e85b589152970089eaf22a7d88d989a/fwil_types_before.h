@@ -1,0 +1,7 @@
+#define BRCMF_SCAN_PARAMS_COUNT_MASK	0x0000ffff
+#define BRCMF_SCAN_PARAMS_NSSID_SHIFT	16
+
+#define BRCMF_WSEC_MAX_PSK_LEN		32
+#define	BRCMF_WSEC_PASSPHRASE		BIT(0)
+
+/* primary (ie tx) key */

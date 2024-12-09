@@ -1,0 +1,31 @@
+
+Introduction
+------------
+
+Currently the ALPS touchpad driver supports four protocol versions in use by
+ALPS touchpads, called versions 1, 2, 3, and 4. Information about the various
+protocol versions is contained in the following sections.
+
+Detection
+---------
+
+report" sequence: E8-E7-E7-E7-E9. The response is the model signature and is
+matched against known models in the alps_model_data_array.
+
+With protocol versions 3 and 4, the E7 report model signature is always
+73-02-64. To differentiate between these versions, the response from the
+"Enter Command Mode" sequence must be inspected as described below.
+
+Command Mode
+------------
+
+register. Registers are written by writing the value one nibble at a time
+using the same encoding used for addresses.
+
+Packet Format
+-------------
+
+In the following tables, the following notation is used.
+    well.
+
+So far no v4 devices with tracksticks have been encountered.

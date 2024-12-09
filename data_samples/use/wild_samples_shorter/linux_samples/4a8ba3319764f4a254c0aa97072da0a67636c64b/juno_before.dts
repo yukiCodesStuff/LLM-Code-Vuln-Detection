@@ -1,0 +1,8 @@
+	};
+
+	chosen {
+		stdout-path = &soc_uart0;
+	};
+
+	psci {
+		compatible = "arm,psci-0.2";

@@ -1,0 +1,8 @@
+		#dma-cells = <2>;
+
+		interrupt-parent = <&intc>;
+		interrupts = <20>;
+
+		clocks = <&cgu JZ4740_CLK_DMA>;
+
+		/* Disable dmac until we have something that uses it */

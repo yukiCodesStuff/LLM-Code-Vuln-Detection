@@ -1,0 +1,54 @@
+&sdhci1 {
+	broken-cd;
+	sdhci,wp-inverted;
+	status = "okay";
+};
+
+&sdhci2 {
+	broken-cd;
+	bus-width = <8>;
+	non-removable;
+	status = "okay";
+};
+
+&i2c0 {
+	status = "okay";
+};
+
+&i2c2 {
+	status = "okay";
+};
+
+&uart0 {
+	status = "okay";
+};
+
+&usb_phy0 {
+	status = "okay";
+};
+
+&usb_phy2 {
+	status = "okay";
+};
+
+&usb0 {
+	vbus-supply = <&reg_usb0_vbus>;
+	status = "okay";
+};
+
+&usb2 {
+	vbus-supply = <&reg_usb2_vbus>;
+	status = "okay";
+};
+
+&eth0 {
+	status = "okay";
+};
+
+&sata0 {
+	status = "okay";
+};
+
+&sata_phy {
+	status = "okay";
+};

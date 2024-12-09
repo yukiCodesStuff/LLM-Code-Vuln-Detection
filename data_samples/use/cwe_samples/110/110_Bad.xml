@@ -1,0 +1,4 @@
+
+                  <form name="DateRangeForm"><field property="startDate" depends="date"><arg0 key="start.date"/></field><field property="endDate" depends="date"><arg0 key="end.date"/></field><field property="scale" depends="integer"><arg0 key="range.scale"/></field></form>
+               
+            

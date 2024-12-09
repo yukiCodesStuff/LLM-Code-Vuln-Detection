@@ -1,0 +1,301 @@
+			pit: timer@fc068630 {
+				compatible = "atmel,at91sam9260-pit";
+				reg = <0xfc068630 0xf>;
+				interrupts = <3 IRQ_TYPE_LEVEL_HIGH 5>;
+				clocks = <&h32ck>;
+			};
+
+			watchdog@fc068640 {
+				compatible = "atmel,at91sam9260-wdt";
+				reg = <0xfc068640 0x10>;
+				status = "disabled";
+			};
+
+			sckc@fc068650 {
+				compatible = "atmel,at91sam9x5-sckc";
+				reg = <0xfc068650 0x4>;
+
+				slow_rc_osc: slow_rc_osc {
+					compatible = "atmel,at91sam9x5-clk-slow-rc-osc";
+					#clock-cells = <0>;
+					clock-frequency = <32768>;
+					clock-accuracy = <250000000>;
+					atmel,startup-time-usec = <75>;
+				};
+
+				slow_osc: slow_osc {
+					compatible = "atmel,at91sam9x5-clk-slow-osc";
+					#clock-cells = <0>;
+					clocks = <&slow_xtal>;
+					atmel,startup-time-usec = <1200000>;
+				};
+
+				clk32k: slowck {
+					compatible = "atmel,at91sam9x5-clk-slow";
+					#clock-cells = <0>;
+					clocks = <&slow_rc_osc &slow_osc>;
+				};
+			};
+
+			rtc@fc0686b0 {
+				compatible = "atmel,at91rm9200-rtc";
+				reg = <0xfc0686b0 0x30>;
+				interrupts = <1 IRQ_TYPE_LEVEL_HIGH 7>;
+			};
+
+			dbgu: serial@fc069000 {
+				compatible = "atmel,at91sam9260-usart";
+				reg = <0xfc069000 0x200>;
+				interrupts = <2 IRQ_TYPE_LEVEL_HIGH 7>;
+				pinctrl-names = "default";
+				pinctrl-0 = <&pinctrl_dbgu>;
+				clocks = <&dbgu_clk>;
+				clock-names = "usart";
+				status = "disabled";
+			};
+
+
+			pinctrl@fc06a000 {
+				#address-cells = <1>;
+				#size-cells = <1>;
+				compatible = "atmel,at91sam9x5-pinctrl", "atmel,at91rm9200-pinctrl", "simple-bus";
+				ranges = <0xfc06a000 0xfc06a000 0x4000>;
+				/* WARNING: revisit as pin spec has changed */
+				atmel,mux-mask = <
+					/*   A          B          C  */
+					0xffffffff 0x3ffcfe7c 0x1c010101	/* pioA */
+					0x7fffffff 0xfffccc3a 0x3f00cc3a	/* pioB */
+					0xffffffff 0x3ff83fff 0xff00ffff	/* pioC */
+					0x00000000 0x00000000 0x00000000	/* pioD */
+					0xffffffff 0x7fffffff 0x76fff1bf	/* pioE */
+					>;
+
+				pioA: gpio@fc06a000 {
+					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
+					reg = <0xfc06a000 0x100>;
+					interrupts = <23 IRQ_TYPE_LEVEL_HIGH 1>;
+					#gpio-cells = <2>;
+					gpio-controller;
+					interrupt-controller;
+					#interrupt-cells = <2>;
+					clocks = <&pioA_clk>;
+				};
+
+				pioB: gpio@fc06b000 {
+					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
+					reg = <0xfc06b000 0x100>;
+					interrupts = <24 IRQ_TYPE_LEVEL_HIGH 1>;
+					#gpio-cells = <2>;
+					gpio-controller;
+					interrupt-controller;
+					#interrupt-cells = <2>;
+					clocks = <&pioB_clk>;
+				};
+
+				pioC: gpio@fc06c000 {
+					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
+					reg = <0xfc06c000 0x100>;
+					interrupts = <25 IRQ_TYPE_LEVEL_HIGH 1>;
+					#gpio-cells = <2>;
+					gpio-controller;
+					interrupt-controller;
+					#interrupt-cells = <2>;
+					clocks = <&pioC_clk>;
+				};
+
+				pioE: gpio@fc06d000 {
+					compatible = "atmel,at91sam9x5-gpio", "atmel,at91rm9200-gpio";
+					reg = <0xfc06d000 0x100>;
+					interrupts = <26 IRQ_TYPE_LEVEL_HIGH 1>;
+					#gpio-cells = <2>;
+					gpio-controller;
+					interrupt-controller;
+					#interrupt-cells = <2>;
+					clocks = <&pioE_clk>;
+				};
+
+				/* pinctrl pin settings */
+				adc0 {
+					pinctrl_adc0_adtrg: adc0_adtrg {
+						atmel,pins =
+							<AT91_PIOE 31 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* conflicts with USBA_VBUS */
+					};
+					pinctrl_adc0_ad0: adc0_ad0 {
+						atmel,pins =
+							<AT91_PIOC 27 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+					};
+					pinctrl_adc0_ad1: adc0_ad1 {
+						atmel,pins =
+							<AT91_PIOC 28 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+					};
+					pinctrl_adc0_ad2: adc0_ad2 {
+						atmel,pins =
+							<AT91_PIOC 29 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+					};
+					pinctrl_adc0_ad3: adc0_ad3 {
+						atmel,pins =
+							<AT91_PIOC 30 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+					};
+					pinctrl_adc0_ad4: adc0_ad4 {
+						atmel,pins =
+							<AT91_PIOC 31 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+					};
+				};
+
+				dbgu {
+					pinctrl_dbgu: dbgu-0 {
+						atmel,pins =
+							<AT91_PIOB 24 AT91_PERIPH_A AT91_PINCTRL_NONE>,     /* conflicts with D14 and TDI */
+							<AT91_PIOB 25 AT91_PERIPH_A AT91_PINCTRL_PULL_UP>;  /* conflicts with D15 and TDO */
+					};
+				};
+
+				i2c0 {
+					pinctrl_i2c0: i2c0-0 {
+						atmel,pins =
+							<AT91_PIOA 30 AT91_PERIPH_A AT91_PINCTRL_NONE
+							 AT91_PIOA 31 AT91_PERIPH_A AT91_PINCTRL_NONE>;
+					};
+				};
+
+				i2c2 {
+					pinctrl_i2c2: i2c2-0 {
+						atmel,pins =
+							<AT91_PIOB 29 AT91_PERIPH_A AT91_PINCTRL_NONE	/* TWD2, conflicts with RD0 and PWML1 */
+							 AT91_PIOB 30 AT91_PERIPH_A AT91_PINCTRL_NONE>; /* TWCK2, conflicts with RF0 */
+					};
+				};
+
+				macb0 {
+					pinctrl_macb0_rmii: macb0_rmii-0 {
+						atmel,pins =
+							<AT91_PIOB 12 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_TX0 */
+							 AT91_PIOB 13 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_TX1 */
+							 AT91_PIOB  8 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_RX0 */
+							 AT91_PIOB  9 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_RX1 */
+							 AT91_PIOB  6 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_RXDV */
+							 AT91_PIOB  7 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_RXER */
+							 AT91_PIOB  2 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_TXEN */
+							 AT91_PIOB  0 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_TXCK */
+							 AT91_PIOB 16 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_MDC */
+							 AT91_PIOB 17 AT91_PERIPH_A AT91_PINCTRL_NONE	/* G0_MDIO */
+							>;
+					};
+				};
+
+				mmc0 {
+					pinctrl_mmc0_clk_cmd_dat0: mmc0_clk_cmd_dat0 {
+						atmel,pins =
+							<AT91_PIOC 4 AT91_PERIPH_B AT91_PINCTRL_NONE	/* MCI0_CK, conflict with PCK1(ISI_MCK) */
+							 AT91_PIOC 5 AT91_PERIPH_B AT91_PINCTRL_PULL_UP	/* MCI0_CDB, conflict with NAND_D0 */
+							 AT91_PIOC 6 AT91_PERIPH_B AT91_PINCTRL_PULL_UP	/* MCI0_DB0, conflict with NAND_D1 */
+							>;
+					};
+					pinctrl_mmc0_dat1_3: mmc0_dat1_3 {
+						atmel,pins =
+							<AT91_PIOC 7 AT91_PERIPH_B AT91_PINCTRL_PULL_UP	/* MCI0_DB1, conflict with NAND_D2 */
+							 AT91_PIOC 8 AT91_PERIPH_B AT91_PINCTRL_PULL_UP	/* MCI0_DB2, conflict with NAND_D3 */
+							 AT91_PIOC 9 AT91_PERIPH_B AT91_PINCTRL_PULL_UP	/* MCI0_DB3, conflict with NAND_D4 */
+							>;
+					};
+				};
+
+				mmc1 {
+					pinctrl_mmc1_clk_cmd_dat0: mmc1_clk_cmd_dat0 {
+						atmel,pins =
+							<AT91_PIOE 18 AT91_PERIPH_C AT91_PINCTRL_NONE		/* MCI1_CK */
+							 AT91_PIOE 19 AT91_PERIPH_C AT91_PINCTRL_PULL_UP	/* MCI1_CDA */
+							 AT91_PIOE 20 AT91_PERIPH_C AT91_PINCTRL_PULL_UP	/* MCI1_DA0 */
+							>;
+					};
+					pinctrl_mmc1_dat1_3: mmc1_dat1_3 {
+						atmel,pins =
+							<AT91_PIOE 21 AT91_PERIPH_C AT91_PINCTRL_PULL_UP	/* MCI1_DA1 */
+							 AT91_PIOE 22 AT91_PERIPH_C AT91_PINCTRL_PULL_UP	/* MCI1_DA2 */
+							 AT91_PIOE 23 AT91_PERIPH_C AT91_PINCTRL_PULL_UP	/* MCI1_DA3 */
+							>;
+					};
+				};
+
+				nand0 {
+					pinctrl_nand: nand-0 {
+						atmel,pins =
+							<AT91_PIOC 13 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC13 periph A Read Enable */
+							 AT91_PIOC 14 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC14 periph A Write Enable */
+
+							 AT91_PIOC 17 AT91_PERIPH_A AT91_PINCTRL_PULL_UP	/* PC17 ALE */
+							 AT91_PIOC 18 AT91_PERIPH_A AT91_PINCTRL_PULL_UP	/* PC18 CLE */
+
+							 AT91_PIOC 15 AT91_PERIPH_A AT91_PINCTRL_PULL_UP	/* PC15 NCS3/Chip Enable */
+							 AT91_PIOC 16 AT91_PERIPH_A AT91_PINCTRL_PULL_UP	/* PC16 NANDRDY */
+							 AT91_PIOC 5 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC5 Data bit 0 */
+							 AT91_PIOC 6 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC6 Data bit 1 */
+							 AT91_PIOC 7 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC7 Data bit 2 */
+							 AT91_PIOC 8 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC8 Data bit 3 */
+							 AT91_PIOC 9 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC9 Data bit 4 */
+							 AT91_PIOC 10 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC10 Data bit 5 */
+							 AT91_PIOC 11 AT91_PERIPH_A AT91_PINCTRL_NONE	/* PC11 periph A Data bit 6 */
+							 AT91_PIOC 12 AT91_PERIPH_A AT91_PINCTRL_NONE>;	/* PC12 periph A Data bit 7 */
+					};
+				};
+
+				spi0 {
+					pinctrl_spi0: spi0-0 {
+						atmel,pins =
+							<AT91_PIOC 0 AT91_PERIPH_A AT91_PINCTRL_NONE	/* SPI0_MISO */
+							 AT91_PIOC 1 AT91_PERIPH_A AT91_PINCTRL_NONE	/* SPI0_MOSI */
+							 AT91_PIOC 2 AT91_PERIPH_A AT91_PINCTRL_NONE	/* SPI0_SPCK */
+							>;
+					};
+				};
+
+				usart2 {
+					pinctrl_usart2: usart2-0 {
+						atmel,pins =
+							<AT91_PIOB 4 AT91_PERIPH_B AT91_PINCTRL_NONE		/* RXD - conflicts with G0_CRS, ISI_HSYNC */
+							 AT91_PIOB 5 AT91_PERIPH_B AT91_PINCTRL_PULL_UP		/* TXD - conflicts with G0_COL, PCK2 */
+							>;
+					};
+					pinctrl_usart2_rts: usart2_rts-0 {
+						atmel,pins = <AT91_PIOB 11 AT91_PERIPH_B AT91_PINCTRL_NONE>;	/* conflicts with G0_RX3, PWMH1 */
+					};
+					pinctrl_usart2_cts: usart2_cts-0 {
+						atmel,pins = <AT91_PIOB 3 AT91_PERIPH_B AT91_PINCTRL_NONE>;	/* conflicts with G0_TXER, ISI_VSYNC */
+					};
+				};
+
+				usart3 {
+					pinctrl_usart3: usart3-0 {
+						atmel,pins =
+							<AT91_PIOE 16 AT91_PERIPH_B AT91_PINCTRL_NONE		/* RXD */
+							 AT91_PIOE 17 AT91_PERIPH_B AT91_PINCTRL_PULL_UP	/* TXD */
+							>;
+					};
+				};
+
+				usart4 {
+					pinctrl_usart4: usart4-0 {
+						atmel,pins =
+							<AT91_PIOE 26 AT91_PERIPH_B AT91_PINCTRL_NONE		/* RXD */
+							 AT91_PIOE 27 AT91_PERIPH_B AT91_PINCTRL_PULL_UP	/* TXD */
+							>;
+					};
+					pinctrl_usart4_rts: usart4_rts-0 {
+						atmel,pins = <AT91_PIOE 28 AT91_PERIPH_B AT91_PINCTRL_NONE>;	/* conflicts with NWAIT, A19 */
+					};
+					pinctrl_usart4_cts: usart4_cts-0 {
+						atmel,pins = <AT91_PIOE 0 AT91_PERIPH_C AT91_PINCTRL_NONE>;	/* conflicts with A0/NBS0, MCI0_CDB */
+					};
+				};
+			};
+
+			aic: interrupt-controller@fc06e000 {
+				#interrupt-cells = <3>;
+				compatible = "atmel,sama5d4-aic";
+				interrupt-controller;
+				reg = <0xfc06e000 0x200>;
+				atmel,external-irqs = <56>;
+			};
+		};
+	};
+};

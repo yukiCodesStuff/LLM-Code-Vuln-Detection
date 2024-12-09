@@ -1,0 +1,47 @@
+          exptest pbetest localetest evp_pkey_ctx_new_from_name\
+          evp_pkey_provided_test evp_test evp_extra_test evp_extra_test2 \
+          evp_fetch_prov_test evp_libctx_test ossl_store_test \
+          v3nametest v3ext \
+          evp_pkey_provided_test evp_test evp_extra_test evp_extra_test2 \
+          evp_fetch_prov_test v3nametest v3ext \
+          crltest danetest bad_dtls_test lhash_test sparse_array_test \
+          conf_include_test params_api_test params_conversion_test \
+          context_internal_test aesgcmtest params_test evp_pkey_dparams_test \
+          keymgmt_internal_test hexstr_test provider_status_test defltfips_test \
+          bio_readbuffer_test user_property_test pkcs7_test upcallstest \
+          provfetchtest prov_config_test rand_test
+
+  IF[{- !$disabled{'deprecated-3.0'} -}]
+    PROGRAMS{noinst}=enginetest
+  ENDIF
+  SOURCE[evp_fetch_prov_test]=evp_fetch_prov_test.c
+  INCLUDE[evp_fetch_prov_test]=../include ../apps/include
+  DEPEND[evp_fetch_prov_test]=../libcrypto libtestutil.a
+  IF[{- $disabled{fips} || !$target{dso_scheme} -}]
+    DEFINE[evp_extra_test]=NO_FIPS_MODULE
+  ENDIF
+
+  SOURCE[provfetchtest]=provfetchtest.c
+  INCLUDE[provfetchtest]=../include ../apps/include
+  DEPEND[provfetchtest]=../libcrypto.a libtestutil.a
+  INCLUDE[pkcs7_test]=../include ../apps/include
+  DEPEND[pkcs7_test]=../libcrypto libtestutil.a
+
+  SOURCE[stack_test]=stack_test.c
+  INCLUDE[stack_test]=../include ../apps/include
+  DEPEND[stack_test]=../libcrypto libtestutil.a
+
+  INCLUDE[defltfips_test]=../include  ../apps/include
+  DEPEND[defltfips_test]=../libcrypto libtestutil.a
+
+  SOURCE[ocspapitest]=ocspapitest.c
+  INCLUDE[ocspapitest]=../include ../apps/include
+  DEPEND[ocspapitest]=../libcrypto libtestutil.a
+
+    INCLUDE[ssl_old_test]=.. ../include ../apps/include
+    DEPEND[ssl_old_test]=../libcrypto.a ../libssl.a libtestutil.a
+
+    PROGRAMS{noinst}=algorithmid_test
+    SOURCE[algorithmid_test]=algorithmid_test.c
+    INCLUDE[algorithmid_test]=../include ../apps/include
+    DEPEND[algorithmid_test]=../libcrypto.a libtestutil.a

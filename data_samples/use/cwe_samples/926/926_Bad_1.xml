@@ -1,0 +1,4 @@
+
+                  <provider>android:name="com.example.vulnerableApp.searchDB"android:authorities="com.example.vulnerableApp.searchDB"></provider>
+               
+               

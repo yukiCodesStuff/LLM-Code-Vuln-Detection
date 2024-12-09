@@ -1,0 +1,7 @@
+
+                  <system.serviceModel><behaviors><serviceBehaviors><behavior name="NewBehavior"><serviceSecurityAudit auditLogLocation="Default"suppressAuditFailure="false"serviceAuthorizationAuditLevel="SuccessAndFailure"messageAuthenticationAuditLevel="SuccessAndFailure" />
+                              ...
+                        
+                     </system.serviceModel>
+               
+            

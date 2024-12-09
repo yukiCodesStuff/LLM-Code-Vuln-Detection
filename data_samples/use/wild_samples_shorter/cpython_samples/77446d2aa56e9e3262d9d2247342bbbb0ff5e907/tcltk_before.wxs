@@ -1,0 +1,7 @@
+        <Package InstallerVersion="500" Compressed="yes" InstallScope="perUser" />
+        <MediaTemplate EmbedCab="yes" CompressionLevel="high" />
+        
+        <PropertyRef Id="UpgradeTable" />
+        <PropertyRef Id="REGISTRYKEY" />
+        
+        <Property Id="PYTHON_EXE" Secure="yes">

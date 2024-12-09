@@ -1,0 +1,4 @@
+
+                  <ejb-jar>...<assembly-descriptor><method-permission><role-name>ANYONE</role-name><method><ejb-name>Employee</ejb-name><method-name>getSalary</method-name></method-permission></assembly-descriptor>...</ejb-jar>
+               
+            

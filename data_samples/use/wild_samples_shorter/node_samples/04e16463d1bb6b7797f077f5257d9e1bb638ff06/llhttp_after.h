@@ -1,0 +1,8 @@
+
+#define LLHTTP_VERSION_MAJOR 9
+#define LLHTTP_VERSION_MINOR 2
+#define LLHTTP_VERSION_PATCH 1
+
+#ifndef INCLUDE_LLHTTP_ITSELF_H_
+#define INCLUDE_LLHTTP_ITSELF_H_
+#ifdef __cplusplus

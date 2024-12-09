@@ -1,0 +1,7 @@
+			interrupts = <26 IRQ_TYPE_LEVEL_HIGH 3>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_fb>;
+			status = "disabled";
+		};
+
+		nand0: nand@40000000 {

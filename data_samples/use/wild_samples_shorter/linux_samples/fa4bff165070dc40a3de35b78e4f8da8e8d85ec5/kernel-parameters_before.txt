@@ -1,0 +1,29 @@
+
+			Default is 'flush'.
+
+			For details see: Documentation/admin-guide/l1tf.rst
+
+	l2cr=		[PPC]
+
+	l3cr=		[PPC]
+			Format: <first>,<last>
+			Specifies range of consoles to be captured by the MDA.
+
+	mem=nn[KMG]	[KNL,BOOT] Force usage of a specific amount of memory
+			Amount of memory to be used when the kernel is not able
+			to see the whole system memory or for test.
+			[X86] Work as limiting max address. Use together
+					       spec_store_bypass_disable=off [X86,PPC]
+					       ssbd=force-off [ARM64]
+					       l1tf=off [X86]
+
+			auto (default)
+				Mitigate all CPU vulnerabilities, but leave SMT
+				enabled, even if it's vulnerable.  This is for
+				if needed.  This is for users who always want to
+				be fully mitigated, even if it means losing SMT.
+				Equivalent to: l1tf=flush,nosmt [X86]
+
+	mminit_loglevel=
+			[KNL] When CONFIG_DEBUG_MEMORY_INIT is set, this
+			parameter allows control of the logging verbosity for

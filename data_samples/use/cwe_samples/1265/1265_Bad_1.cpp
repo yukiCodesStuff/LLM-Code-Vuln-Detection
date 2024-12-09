@@ -1,0 +1,2 @@
+class Request{private:std::string uri;/* ... */public:void setup(ScriptObject* _uri){this->uri = scriptEngine->coerceToString(_uri);/* ... */}void send(ScriptObject* _data){Credentials credentials = GetCredentials(uri);std::string data = scriptEngine->coerceToString(_data);doSend(uri, credentials, data);}}
+				

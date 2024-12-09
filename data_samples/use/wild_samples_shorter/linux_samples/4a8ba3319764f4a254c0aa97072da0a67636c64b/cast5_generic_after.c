@@ -1,0 +1,4 @@
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("Cast5 Cipher Algorithm");
+MODULE_ALIAS_CRYPTO("cast5");
+MODULE_ALIAS_CRYPTO("cast5-generic");

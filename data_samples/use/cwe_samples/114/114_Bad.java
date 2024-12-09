@@ -1,0 +1,4 @@
+
+                  ...System.loadLibrary("library.dll");...
+               
+               

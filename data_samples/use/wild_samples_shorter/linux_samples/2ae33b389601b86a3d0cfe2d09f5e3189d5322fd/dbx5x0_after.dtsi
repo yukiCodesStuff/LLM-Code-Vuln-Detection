@@ -1,0 +1,9 @@
+				};
+			};
+
+			ab8500 {
+				compatible = "stericsson,ab8500";
+				interrupt-parent = <&intc>;
+				interrupts = <0 40 0x4>;
+				interrupt-controller;
+				#interrupt-cells = <2>;

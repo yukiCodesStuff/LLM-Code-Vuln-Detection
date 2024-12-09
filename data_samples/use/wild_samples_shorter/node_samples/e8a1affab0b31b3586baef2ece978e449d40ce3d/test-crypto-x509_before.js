@@ -1,0 +1,3 @@
+    legacyObject.serialNumber,
+    legacyObjectCheck.serialNumber);
+}

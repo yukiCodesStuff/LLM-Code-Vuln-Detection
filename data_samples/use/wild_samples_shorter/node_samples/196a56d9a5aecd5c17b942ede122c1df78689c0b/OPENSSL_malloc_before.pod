@@ -1,0 +1,32 @@
+failing.
+
+If the variable B<OPENSSL_MALLOC_FD> is parsed as a positive integer, then
+it is taken as an open file descriptor, and a record of all allocations is
+written to that descriptor.  If an allocation will fail, and the platform
+supports it, then a backtrace will be written to the descriptor.  This can
+be useful because a malloc may fail but not be checked, and problems will
+only occur later.  The following example in classic shell syntax shows how
+to use this (will not work on all platforms):
+
+  OPENSSL_MALLOC_FAILURES='200;@10'
+  export OPENSSL_MALLOC_FAILURES
+  OPENSSL_MALLOC_FD=3
+always because allocations have already happened).
+
+CRYPTO_mem_leaks(), CRYPTO_mem_leaks_fp(), CRYPTO_mem_leaks_cb(),
+CRYPTO_set_mem_debug(), and CRYPTO_mem_ctrl() are deprecated and return -1.
+OPENSSL_mem_debug_push(), OPENSSL_mem_debug_pop(),
+CRYPTO_mem_debug_push(), and CRYPTO_mem_debug_pop()
+are deprecated and return 0.
+
+=head1 HISTORY
+
+OPENSSL_mem_debug_push(), OPENSSL_mem_debug_pop(),
+
+=head1 COPYRIGHT
+
+Copyright 2016-2021 The OpenSSL Project Authors. All Rights Reserved.
+
+Licensed under the Apache License 2.0 (the "License").  You may not use
+this file except in compliance with the License.  You can obtain a copy
+in the file LICENSE in the source distribution or at

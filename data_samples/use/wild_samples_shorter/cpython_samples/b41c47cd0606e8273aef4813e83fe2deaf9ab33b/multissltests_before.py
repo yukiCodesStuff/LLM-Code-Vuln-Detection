@@ -1,0 +1,9 @@
+]
+
+OPENSSL_RECENT_VERSIONS = [
+    "1.1.1s",
+    "3.0.7"
+]
+
+LIBRESSL_OLD_VERSIONS = [
+]

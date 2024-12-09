@@ -1,0 +1,3 @@
+    resource: path.toNamespacedPath(blockedFile),
+  }));
+}

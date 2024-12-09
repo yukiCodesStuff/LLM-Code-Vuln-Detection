@@ -1,0 +1,7 @@
+     Proto [2 bytes]
+     Raw protocol(IP, IPv6, etc) frame.
+
+Universal TUN/TAP device driver Frequently Asked Question.
+   
+1. What platforms are supported by TUN/TAP driver ?
+Currently driver has been written for 3 Unices:

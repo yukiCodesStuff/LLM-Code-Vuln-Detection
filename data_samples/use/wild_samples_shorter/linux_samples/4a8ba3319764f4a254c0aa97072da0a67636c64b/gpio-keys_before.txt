@@ -1,0 +1,20 @@
+Each button (key) is represented as a sub-node of "gpio-keys":
+Subnode properties:
+
+	- label: Descriptive name of the key.
+	- linux,code: Keycode to emit.
+
+Required mutual exclusive subnode-properties:
+	- gpios: OF device-tree gpio specification.
+	- interrupts: the interrupt line for that input
+
+Optional subnode-properties:
+	- linux,input-type: Specify event type this button/key generates.
+	  If not specified defaults to <1> == EV_KEY.
+	- debounce-interval: Debouncing interval time in milliseconds.
+	  If not specified defaults to 5.
+	- gpio-key,wakeup: Boolean, button can wake-up the system.
+
+Example nodes:
+
+	gpio_keys {

@@ -1,0 +1,15 @@
+
+                  <manifest package="com.example.vulnerableApplication">
+                        <application>
+                           ...
+                           
+                           
+                              <receiver android:name=".ShutdownReceiver"><intent-filter><action android:name="android.intent.action.ACTION_SHUTDOWN" /></intent-filter></receiver>
+                           
+                           
+                           ...
+                           
+                           </application>
+                     </manifest>
+               
+               

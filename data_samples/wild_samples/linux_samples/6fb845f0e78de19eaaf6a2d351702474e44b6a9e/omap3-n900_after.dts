@@ -1,0 +1,323 @@
+&mmc1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc1_pins>;
+	vmmc-supply = <&vmmc1>;
+	bus-width = <4>;
+	/* For debugging, it is often good idea to remove this GPIO.
+	   It means you can remove back cover (to reboot by removing
+	   battery) and still use the MMC card. */
+	cd-gpios = <&gpio6 0 GPIO_ACTIVE_LOW>; /* 160 */
+};
+
+/* most boards use vaux3, only some old versions use vmmc2 instead */
+&mmc2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc2_pins>;
+	vmmc-supply = <&vaux3>;
+	vqmmc-supply = <&vsim>;
+	bus-width = <8>;
+	non-removable;
+	no-sdio;
+	no-sd;
+};
+
+&mmc3 {
+	status = "disabled";
+};
+
+&gpmc {
+	ranges = <0 0 0x01000000 0x01000000>,	/* 16 MB for OneNAND */
+		 <1 0 0x02000000 0x01000000>;	/* 16 MB for smc91c96 */
+	pinctrl-names = "default";
+	pinctrl-0 = <&gpmc_pins>;
+
+	/* sys_ndmareq1 could be used by the driver, not as gpio65 though */
+	onenand@0,0 {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "ti,omap2-onenand";
+		reg = <0 0 0x20000>;	/* CS0, offset 0, IO size 128K */
+
+		gpmc,sync-read;
+		gpmc,sync-write;
+		gpmc,burst-length = <16>;
+		gpmc,burst-read;
+		gpmc,burst-wrap;
+		gpmc,burst-write;
+		gpmc,device-width = <2>; /* GPMC_DEVWIDTH_16BIT */
+		gpmc,mux-add-data = <2>; /* GPMC_MUX_AD */
+		gpmc,cs-on-ns = <0>;
+		gpmc,cs-rd-off-ns = <87>;
+		gpmc,cs-wr-off-ns = <87>;
+		gpmc,adv-on-ns = <0>;
+		gpmc,adv-rd-off-ns = <10>;
+		gpmc,adv-wr-off-ns = <10>;
+		gpmc,oe-on-ns = <15>;
+		gpmc,oe-off-ns = <87>;
+		gpmc,we-on-ns = <0>;
+		gpmc,we-off-ns = <87>;
+		gpmc,rd-cycle-ns = <112>;
+		gpmc,wr-cycle-ns = <112>;
+		gpmc,access-ns = <81>;
+		gpmc,page-burst-access-ns = <15>;
+		gpmc,bus-turnaround-ns = <0>;
+		gpmc,cycle2cycle-delay-ns = <0>;
+		gpmc,wait-monitoring-ns = <0>;
+		gpmc,clk-activation-ns = <5>;
+		gpmc,wr-data-mux-bus-ns = <30>;
+		gpmc,wr-access-ns = <81>;
+		gpmc,sync-clk-ps = <15000>;
+
+		/*
+		 * MTD partition table corresponding to Nokia's
+		 * Maemo 5 (Fremantle) release.
+		 */
+		partition@0 {
+			label = "bootloader";
+			reg = <0x00000000 0x00020000>;
+			read-only;
+		};
+		partition@1 {
+			label = "config";
+			reg = <0x00020000 0x00060000>;
+		};
+		partition@2 {
+			label = "log";
+			reg = <0x00080000 0x00040000>;
+		};
+		partition@3 {
+			label = "kernel";
+			reg = <0x000c0000 0x00200000>;
+		};
+		partition@4 {
+			label = "initfs";
+			reg = <0x002c0000 0x00200000>;
+		};
+		partition@5 {
+			label = "rootfs";
+			reg = <0x004c0000 0x0fb40000>;
+		};
+	};
+
+	/* Ethernet is on some early development boards and qemu */
+	ethernet@gpmc {
+		compatible = "smsc,lan91c94";
+		interrupt-parent = <&gpio2>;
+		interrupts = <22 IRQ_TYPE_LEVEL_HIGH>;	/* gpio54 */
+		reg = <1 0 0xf>;		/* 16 byte IO range */
+		bank-width = <2>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&ethernet_pins>;
+		power-gpios = <&gpio3 22 GPIO_ACTIVE_HIGH>;	/* gpio86 */
+		reset-gpios = <&gpio6 4 GPIO_ACTIVE_HIGH>;	/* gpio164 */
+		gpmc,device-width = <2>;
+		gpmc,sync-clk-ps = <0>;
+		gpmc,cs-on-ns = <0>;
+		gpmc,cs-rd-off-ns = <48>;
+		gpmc,cs-wr-off-ns = <24>;
+		gpmc,adv-on-ns = <0>;
+		gpmc,adv-rd-off-ns = <0>;
+		gpmc,adv-wr-off-ns = <0>;
+		gpmc,we-on-ns = <12>;
+		gpmc,we-off-ns = <18>;
+		gpmc,oe-on-ns = <12>;
+		gpmc,oe-off-ns = <48>;
+		gpmc,page-burst-access-ns = <0>;
+		gpmc,access-ns = <42>;
+		gpmc,rd-cycle-ns = <180>;
+		gpmc,wr-cycle-ns = <180>;
+		gpmc,bus-turnaround-ns = <0>;
+		gpmc,cycle2cycle-delay-ns = <0>;
+		gpmc,wait-monitoring-ns = <0>;
+		gpmc,clk-activation-ns = <0>;
+		gpmc,wr-access-ns = <0>;
+		gpmc,wr-data-mux-bus-ns = <12>;
+	};
+};
+
+&mcspi1 {
+	/*
+	 * For some reason, touchscreen is necessary for screen to work at
+	 * all on real hw. It works well without it on emulator.
+	 *
+	 * Also... order in the device tree actually matters here.
+	 */
+	tsc2005@0 {
+		compatible = "ti,tsc2005";
+		spi-max-frequency = <6000000>;
+		reg = <0>;
+
+		vio-supply = <&vio>;
+
+		reset-gpios = <&gpio4 8 GPIO_ACTIVE_HIGH>; /* 104 */
+		interrupts-extended = <&gpio4 4 IRQ_TYPE_EDGE_RISING>; /* 100 */
+
+		touchscreen-fuzz-x = <4>;
+		touchscreen-fuzz-y = <7>;
+		touchscreen-fuzz-pressure = <2>;
+		touchscreen-size-x = <4096>;
+		touchscreen-size-y = <4096>;
+		touchscreen-max-pressure = <2048>;
+
+		ti,x-plate-ohms = <280>;
+		ti,esd-recovery-timeout-ms = <8000>;
+	};
+
+	lcd: acx565akm@2 {
+		compatible = "sony,acx565akm";
+		spi-max-frequency = <6000000>;
+		reg = <2>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&acx565akm_pins>;
+
+		label = "lcd";
+		reset-gpios = <&gpio3 26 GPIO_ACTIVE_HIGH>; /* 90 */
+
+		port {
+			lcd_in: endpoint {
+				remote-endpoint = <&sdi_out>;
+			};
+		};
+	};
+};
+
+&mcspi4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mcspi4_pins>;
+
+	wl1251@0 {
+		pinctrl-names = "default";
+		pinctrl-0 = <&wl1251_pins>;
+
+		vio-supply = <&vio>;
+
+		compatible = "ti,wl1251";
+		reg = <0>;
+		spi-max-frequency = <48000000>;
+
+		spi-cpol;
+		spi-cpha;
+
+		ti,power-gpio = <&gpio3 23 GPIO_ACTIVE_HIGH>; /* 87 */
+
+		interrupt-parent = <&gpio2>;
+		interrupts = <10 IRQ_TYPE_NONE>; /* gpio line 42 */
+
+		clocks = <&vctcxo>;
+	};
+};
+
+&usb_otg_hs {
+	interface-type = <0>;
+	usb-phy = <&usb2_phy>;
+	phys = <&usb2_phy>;
+	phy-names = "usb2-phy";
+	mode = <2>;
+	power = <50>;
+};
+
+&uart1 {
+	status = "disabled";
+};
+
+&uart2 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart2_pins>;
+
+	bcm2048: bluetooth {
+		compatible = "brcm,bcm2048-nokia", "nokia,h4p-bluetooth";
+		reset-gpios = <&gpio3 27 GPIO_ACTIVE_LOW>; /* 91 */
+		host-wakeup-gpios = <&gpio4 5 GPIO_ACTIVE_HIGH>; /* 101 */
+		bluetooth-wakeup-gpios = <&gpio2 5 GPIO_ACTIVE_HIGH>; /* 37 */
+		clocks = <&vctcxo>;
+		clock-names = "sysclk";
+	};
+};
+
+&uart3 {
+	interrupts-extended = <&intc 74 &omap3_pmx_core OMAP3_UART3_RX>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart3_pins>;
+};
+
+&dss {
+	status = "ok";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&dss_sdi_pins>;
+
+	vdds_sdi-supply = <&vaux1>;
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@1 {
+			reg = <1>;
+
+			sdi_out: endpoint {
+				remote-endpoint = <&lcd_in>;
+				datapairs = <2>;
+			};
+		};
+	};
+};
+
+&venc {
+	status = "ok";
+
+	vdda-supply = <&vdac>;
+
+	port {
+		venc_out: endpoint {
+			remote-endpoint = <&tv_connector_in>;
+			ti,channels = <1>;
+		};
+	};
+};
+
+&mcbsp2 {
+	status = "ok";
+};
+
+&ssi_port1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&ssi_pins>;
+
+	ti,ssi-cawake-gpio = <&gpio5 23 GPIO_ACTIVE_HIGH>; /* 151 */
+
+	modem: hsi-client {
+		compatible = "nokia,n900-modem";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&modem_pins>;
+
+		hsi-channel-ids = <0>, <1>, <2>, <3>;
+		hsi-channel-names = "mcsaab-control",
+				    "speech-control",
+				    "speech-data",
+				    "mcsaab-data";
+		hsi-speed-kbps = <55000>;
+		hsi-mode = "frame";
+		hsi-flow = "synchronized";
+		hsi-arb-mode = "round-robin";
+
+		interrupts-extended = <&gpio3 8 IRQ_TYPE_EDGE_FALLING>; /* 72 */
+
+		gpios = <&gpio3  6 GPIO_ACTIVE_HIGH>, /* 70 */
+			<&gpio3  9 GPIO_ACTIVE_HIGH>, /* 73 */
+			<&gpio3 10 GPIO_ACTIVE_HIGH>, /* 74 */
+			<&gpio3 11 GPIO_ACTIVE_HIGH>, /* 75 */
+			<&gpio5 29 GPIO_ACTIVE_HIGH>; /* 157 */
+		gpio-names = "cmt_apeslpx",
+			     "cmt_rst_rq",
+			     "cmt_en",
+			     "cmt_rst",
+			     "cmt_bsi";
+	};
+};
+
+&ssi_port2 {
+	status = "disabled";
+};

@@ -1,0 +1,4 @@
+
+                  <action path="/download"type="com.website.d2.action.DownloadAction"name="downloadForm"scope="request"input=".download"validate="false"></action>
+               
+               

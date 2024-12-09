@@ -1,0 +1,217 @@
+ 0)               |    unlock_page() {
+ 0)   0.533 us    |      page_waitqueue();
+ 0)   0.638 us    |      __wake_up_bit();
+ 0)   2.793 us    |    }
+ 0) + 14.012 us   |  }
+
+You can also expand several functions at once:
+
+ echo sys_open > set_graph_function
+ echo sys_close >> set_graph_function
+
+Now if you want to go back to trace all functions you can clear
+this special filter via:
+
+ echo > set_graph_function
+
+
+Filter commands
+---------------
+
+A few commands are supported by the set_ftrace_filter interface.
+Trace commands have the following format:
+
+<function>:<command>:<parameter>
+
+The following commands are supported:
+
+- mod
+  This command enables function filtering per module. The
+  parameter defines the module. For example, if only the write*
+  functions in the ext3 module are desired, run:
+
+   echo 'write*:mod:ext3' > set_ftrace_filter
+
+  This command interacts with the filter in the same way as
+  filtering based on function names. Thus, adding more functions
+  in a different module is accomplished by appending (>>) to the
+  filter file. Remove specific module functions by prepending
+  '!':
+
+   echo '!writeback*:mod:ext3' >> set_ftrace_filter
+
+- traceon/traceoff
+  These commands turn tracing on and off when the specified
+  functions are hit. The parameter determines how many times the
+  tracing system is turned on and off. If unspecified, there is
+  no limit. For example, to disable tracing when a schedule bug
+  is hit the first 5 times, run:
+
+   echo '__schedule_bug:traceoff:5' > set_ftrace_filter
+
+  These commands are cumulative whether or not they are appended
+  to set_ftrace_filter. To remove a command, prepend it by '!'
+  and drop the parameter:
+
+   echo '!__schedule_bug:traceoff' > set_ftrace_filter
+
+
+trace_pipe
+----------
+
+The trace_pipe outputs the same content as the trace file, but
+the effect on the tracing is different. Every read from
+trace_pipe is consumed. This means that subsequent reads will be
+different. The trace is live.
+
+ # echo function > current_tracer
+ # cat trace_pipe > /tmp/trace.out &
+[1] 4153
+ # echo 1 > tracing_on
+ # usleep 1
+ # echo 0 > tracing_on
+ # cat trace
+# tracer: function
+#
+#           TASK-PID   CPU#    TIMESTAMP  FUNCTION
+#              | |      |          |         |
+
+ #
+ # cat /tmp/trace.out
+            bash-4043  [00] 41.267106: finish_task_switch <-schedule
+            bash-4043  [00] 41.267106: hrtick_set <-schedule
+            bash-4043  [00] 41.267107: hrtick_clear <-hrtick_set
+            bash-4043  [00] 41.267108: wait_for_completion <-__stop_machine_run
+            bash-4043  [00] 41.267108: wait_for_common <-wait_for_completion
+            bash-4043  [00] 41.267109: kthread_stop <-stop_machine_run
+            bash-4043  [00] 41.267109: init_waitqueue_head <-kthread_stop
+            bash-4043  [00] 41.267110: wake_up_process <-kthread_stop
+            bash-4043  [00] 41.267110: try_to_wake_up <-wake_up_process
+            bash-4043  [00] 41.267111: select_task_rq_rt <-try_to_wake_up
+
+
+Note, reading the trace_pipe file will block until more input is
+added. By changing the tracer, trace_pipe will issue an EOF. We
+needed to set the function tracer _before_ we "cat" the
+trace_pipe file.
+
+
+trace entries
+-------------
+
+Having too much or not enough data can be troublesome in
+diagnosing an issue in the kernel. The file buffer_size_kb is
+used to modify the size of the internal trace buffers. The
+number listed is the number of entries that can be recorded per
+CPU. To know the full size, multiply the number of possible CPUS
+with the number of entries.
+
+ # cat buffer_size_kb
+1408 (units kilobytes)
+
+Note, to modify this, you must have tracing completely disabled.
+To do that, echo "nop" into the current_tracer. If the
+current_tracer is not set to "nop", an EINVAL error will be
+returned.
+
+ # echo nop > current_tracer
+ # echo 10000 > buffer_size_kb
+ # cat buffer_size_kb
+10000 (units kilobytes)
+
+The number of pages which will be allocated is limited to a
+percentage of available memory. Allocating too much will produce
+an error.
+
+ # echo 1000000000000 > buffer_size_kb
+-bash: echo: write error: Cannot allocate memory
+ # cat buffer_size_kb
+85
+
+Snapshot
+--------
+CONFIG_TRACER_SNAPSHOT makes a generic snapshot feature
+available to all non latency tracers. (Latency tracers which
+record max latency, such as "irqsoff" or "wakeup", can't use
+this feature, since those are already using the snapshot
+mechanism internally.)
+
+Snapshot preserves a current trace buffer at a particular point
+in time without stopping tracing. Ftrace swaps the current
+buffer with a spare buffer, and tracing continues in the new
+current (=previous spare) buffer.
+
+The following debugfs files in "tracing" are related to this
+feature:
+
+  snapshot:
+
+	This is used to take a snapshot and to read the output
+	of the snapshot. Echo 1 into this file to allocate a
+	spare buffer and to take a snapshot (swap), then read
+	the snapshot from this file in the same format as
+	"trace" (described above in the section "The File
+	System"). Both reads snapshot and tracing are executable
+	in parallel. When the spare buffer is allocated, echoing
+	0 frees it, and echoing else (positive) values clear the
+	snapshot contents.
+	More details are shown in the table below.
+
+	status\input  |     0      |     1      |    else    |
+	--------------+------------+------------+------------+
+	not allocated |(do nothing)| alloc+swap |(do nothing)|
+	--------------+------------+------------+------------+
+	allocated     |    free    |    swap    |   clear    |
+	--------------+------------+------------+------------+
+
+Here is an example of using the snapshot feature.
+
+ # echo 1 > events/sched/enable
+ # echo 1 > snapshot
+ # cat snapshot
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 71/71   #P:8
+#
+#                              _-----=> irqs-off
+#                             / _----=> need-resched
+#                            | / _---=> hardirq/softirq
+#                            || / _--=> preempt-depth
+#                            ||| /     delay
+#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |       |   ||||       |         |
+          <idle>-0     [005] d...  2440.603828: sched_switch: prev_comm=swapper/5 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=snapshot-test-2 next_pid=2242 next_prio=120
+           sleep-2242  [005] d...  2440.603846: sched_switch: prev_comm=snapshot-test-2 prev_pid=2242 prev_prio=120 prev_state=R ==> next_comm=kworker/5:1 next_pid=60 next_prio=120
+[...]
+          <idle>-0     [002] d...  2440.707230: sched_switch: prev_comm=swapper/2 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=snapshot-test-2 next_pid=2229 next_prio=120
+
+ # cat trace
+# tracer: nop
+#
+# entries-in-buffer/entries-written: 77/77   #P:8
+#
+#                              _-----=> irqs-off
+#                             / _----=> need-resched
+#                            | / _---=> hardirq/softirq
+#                            || / _--=> preempt-depth
+#                            ||| /     delay
+#           TASK-PID   CPU#  ||||    TIMESTAMP  FUNCTION
+#              | |       |   ||||       |         |
+          <idle>-0     [007] d...  2440.707395: sched_switch: prev_comm=swapper/7 prev_pid=0 prev_prio=120 prev_state=R ==> next_comm=snapshot-test-2 next_pid=2243 next_prio=120
+ snapshot-test-2-2229  [002] d...  2440.707438: sched_switch: prev_comm=snapshot-test-2 prev_pid=2229 prev_prio=120 prev_state=S ==> next_comm=swapper/2 next_pid=0 next_prio=120
+[...]
+
+
+If you try to use this snapshot feature when current tracer is
+one of the latency tracers, you will get the following results.
+
+ # echo wakeup > current_tracer
+ # echo 1 > snapshot
+bash: echo: write error: Device or resource busy
+ # cat snapshot
+cat: snapshot: Device or resource busy
+
+-----------
+
+More details can be found in the source code, in the
+kernel/trace/*.c files.

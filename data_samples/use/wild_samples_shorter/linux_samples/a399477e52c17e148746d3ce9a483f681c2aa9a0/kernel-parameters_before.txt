@@ -1,0 +1,6 @@
+			(virtualized real and unpaged mode) on capable
+			Intel chips. Default is 1 (enabled)
+
+	kvm-intel.vpid=	[KVM,Intel] Disable Virtual Processor Identification
+			feature (tagged TLBs) on capable Intel chips.
+			Default is 1 (enabled)

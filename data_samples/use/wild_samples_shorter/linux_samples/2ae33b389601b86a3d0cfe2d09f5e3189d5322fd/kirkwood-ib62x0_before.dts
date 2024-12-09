@@ -1,0 +1,8 @@
+			};
+		};
+		serial@12000 {
+			clock-frequency = <200000000>;
+			status = "okay";
+		};
+
+		sata@80000 {

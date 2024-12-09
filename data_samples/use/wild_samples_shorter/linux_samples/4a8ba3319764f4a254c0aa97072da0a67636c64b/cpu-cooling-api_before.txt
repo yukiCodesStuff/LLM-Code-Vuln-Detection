@@ -1,0 +1,16 @@
+
+Written by Amit Daniel Kachhap <amit.kachhap@linaro.org>
+
+Updated: 12 May 2012
+
+Copyright (c)  2012 Samsung Electronics Co., Ltd(http://www.samsung.com)
+
+0. Introduction
+
+   clip_cpus: cpumask of cpus where the frequency constraints will happen.
+
+1.1.2 void cpufreq_cooling_unregister(struct thermal_cooling_device *cdev)
+
+    This interface function unregisters the "thermal-cpufreq-%x" cooling device.
+
+    cdev: Cooling device pointer which has to be unregistered.

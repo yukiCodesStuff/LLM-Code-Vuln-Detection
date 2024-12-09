@@ -1,0 +1,29 @@
+adapteva	Adapteva, Inc.
+adi	Analog Devices, Inc.
+aeroflexgaisler	Aeroflex Gaisler AB
+ak	Asahi Kasei Corp.
+allwinner	Allwinner Technology Co., Ltd.
+altr	Altera Corp.
+amcc	Applied Micro Circuits Corporation (APM, formally AMCC)
+amd	Advanced Micro Devices (AMD), Inc.
+apm	Applied Micro Circuits Corporation (APM)
+arm	ARM Ltd.
+armadeus	ARMadeus Systems SARL
+atmel	Atmel Corporation
+auo	AU Optronics Corporation
+avago	Avago Technologies
+bosch	Bosch Sensortec GmbH
+powervr	PowerVR (deprecated, use img)
+qca	Qualcomm Atheros, Inc.
+qcom	Qualcomm Technologies, Inc
+qnap	QNAP Systems, Inc.
+radxa	Radxa
+raidsonic	RaidSonic Technology GmbH
+ralink	Mediatek/Ralink Technology Corp.
+v3	V3 Semiconductor
+variscite	Variscite Ltd.
+via	VIA Technologies, Inc.
+voipac	Voipac Technologies s.r.o.
+winbond Winbond Electronics corp.
+wlf	Wolfson Microelectronics
+wm	Wondermedia Technologies, Inc.

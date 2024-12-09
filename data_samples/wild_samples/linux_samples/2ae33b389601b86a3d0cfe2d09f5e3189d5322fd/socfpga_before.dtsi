@@ -1,0 +1,82 @@
+			pdma: pdma@ffe01000 {
+				compatible = "arm,pl330", "arm,primecell";
+				reg = <0xffe01000 0x1000>;
+				interrupts = <0 180 4>;
+			};
+		};
+
+		gmac0: stmmac@ff700000 {
+			compatible = "altr,socfpga-stmmac", "snps,dwmac-3.70a", "snps,dwmac";
+			reg = <0xff700000 0x2000>;
+			interrupts = <0 115 4>;
+			interrupt-names = "macirq";
+			mac-address = [00 00 00 00 00 00];/* Filled in by U-Boot */
+			phy-mode = "gmii";
+		};
+
+		L2: l2-cache@fffef000 {
+			compatible = "arm,pl310-cache";
+			reg = <0xfffef000 0x1000>;
+			interrupts = <0 38 0x04>;
+			cache-unified;
+			cache-level = <2>;
+		};
+
+		/* Local timer */
+		timer@fffec600 {
+			compatible = "arm,cortex-a9-twd-timer";
+			reg = <0xfffec600 0x100>;
+			interrupts = <1 13 0xf04>;
+		};
+
+		timer0: timer0@ffc08000 {
+			compatible = "snps,dw-apb-timer-sp";
+			interrupts = <0 167 4>;
+			reg = <0xffc08000 0x1000>;
+		};
+
+		timer1: timer1@ffc09000 {
+			compatible = "snps,dw-apb-timer-sp";
+			interrupts = <0 168 4>;
+			reg = <0xffc09000 0x1000>;
+		};
+
+		timer2: timer2@ffd00000 {
+			compatible = "snps,dw-apb-timer-osc";
+			interrupts = <0 169 4>;
+			reg = <0xffd00000 0x1000>;
+		};
+
+		timer3: timer3@ffd01000 {
+			compatible = "snps,dw-apb-timer-osc";
+			interrupts = <0 170 4>;
+			reg = <0xffd01000 0x1000>;
+		};
+
+		uart0: serial0@ffc02000 {
+			compatible = "snps,dw-apb-uart";
+			reg = <0xffc02000 0x1000>;
+			interrupts = <0 162 4>;
+			reg-shift = <2>;
+			reg-io-width = <4>;
+		};
+
+		uart1: serial1@ffc03000 {
+			compatible = "snps,dw-apb-uart";
+			reg = <0xffc03000 0x1000>;
+			interrupts = <0 163 4>;
+			reg-shift = <2>;
+			reg-io-width = <4>;
+		};
+
+		rstmgr@ffd05000 {
+				compatible = "altr,rst-mgr";
+				reg = <0xffd05000 0x1000>;
+			};
+
+		sysmgr@ffd08000 {
+				compatible = "altr,sys-mgr";
+				reg = <0xffd08000 0x4000>;
+			};
+	};
+};

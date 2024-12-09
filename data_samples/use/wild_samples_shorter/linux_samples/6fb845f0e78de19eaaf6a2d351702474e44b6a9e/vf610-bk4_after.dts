@@ -1,0 +1,12 @@
+	bus-num = <3>;
+	status = "okay";
+	spi-slave;
+	#address-cells = <0>;
+
+	slave {
+		compatible = "lwn,bk4";
+		spi-max-frequency = <30000000>;
+	};
+};
+
+&edma0 {

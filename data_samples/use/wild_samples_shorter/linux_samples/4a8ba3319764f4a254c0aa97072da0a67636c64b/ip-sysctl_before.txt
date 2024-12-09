@@ -1,0 +1,7 @@
+route/max_size - INTEGER
+	Maximum number of routes allowed in the kernel.  Increase
+	this when using large numbers of interfaces and/or routes.
+
+neigh/default/gc_thresh1 - INTEGER
+	Minimum number of entries to keep.  Garbage collector will not
+	purge entries if there are fewer than this number.

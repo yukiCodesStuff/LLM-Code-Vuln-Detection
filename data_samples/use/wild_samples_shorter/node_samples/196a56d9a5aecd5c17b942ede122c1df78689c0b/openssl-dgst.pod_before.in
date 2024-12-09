@@ -1,0 +1,8 @@
+
+=item B<-xoflen> I<length>
+
+Set the output length for XOF algorithms, such as B<shake128>.
+
+=item B<-r>
+
+=for openssl foreign manual sha1sum(1)

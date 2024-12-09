@@ -1,0 +1,97 @@
+[ I<options> ... ]
+[ I<parameters> ... ]
+
+B<openssl> B<no->I<XXX> [ I<options> ]
+
+=head1 DESCRIPTION
+
+I<options> and I<parameters>.
+
+Detailed documentation and use cases for most standard subcommands are available
+(e.g., L<openssl-x509(1)>). The subcommand L<openssl-list(1)> may be used to list
+subcommands.
+
+The command B<no->I<XXX> tests whether a command of the
+specified name is available.  If no command named I<XXX> exists, it
+returns 0 (success) and prints B<no->I<XXX>; otherwise it returns 1
+
+=item B<TRACE>
+
+Traces the OpenSSL trace API itself.
+
+=item B<INIT>
+
+Traces OpenSSL library initialization and cleanup.
+
+=item B<TLS>
+
+Traces the TLS/SSL protocol.
+
+=item B<TLS_CIPHER>
+
+Traces the ciphers used by the TLS/SSL protocol.
+
+=item B<CONF>
+
+Show details about provider and engine configuration.
+
+=item B<PKCS5V2>
+
+Traces PKCS#5 v2 key generation.
+
+=item B<PKCS12_KEYGEN>
+
+Traces PKCS#12 key generation.
+
+=item B<PKCS12_DECRYPT>
+
+Traces PKCS#12 decryption.
+
+=item B<X509V3_POLICY>
+
+Generates the complete policy tree at various points during X.509 v3
+policy evaluation.
+
+=item B<BN_CTX>
+
+Traces BIGNUM context operations.
+
+=item B<CMP>
+
+Traces CMP client and server activity.
+
+=item B<STORE>
+
+Traces STORE operations.
+
+=item B<DECODER>
+
+Traces decoder operations.
+
+=item B<ENCODER>
+
+Traces encoder operations.
+
+=item B<REF_COUNT>
+
+Traces decrementing certain ASN.1 structure references.
+
+=back
+
+=back
+L<openssl-genpkey(1)>,
+L<openssl-genrsa(1)>,
+L<openssl-kdf(1)>,
+L<openssl-list(1)>,
+L<openssl-mac(1)>,
+L<openssl-nseq(1)>,
+L<openssl-ocsp(1)>,
+L<openssl-passwd(1)>,
+
+=head1 COPYRIGHT
+
+Copyright 2000-2022 The OpenSSL Project Authors. All Rights Reserved.
+
+Licensed under the Apache License 2.0 (the "License").  You may not use
+this file except in compliance with the License.  You can obtain a copy
+in the file LICENSE in the source distribution or at

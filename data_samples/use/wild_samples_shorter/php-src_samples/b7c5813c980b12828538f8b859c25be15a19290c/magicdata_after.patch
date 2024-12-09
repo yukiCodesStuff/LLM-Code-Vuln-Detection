@@ -1,0 +1,4 @@
+diff -ur Magdir.orig/rpm Magdir/rpm
+--- Magdir.orig/rpm	2021-02-23 01:49:24.000000000 +0100
++++ Magdir/rpm	2021-04-05 19:40:55.080911893 +0200
+@@ -29,6 +29,7 @@

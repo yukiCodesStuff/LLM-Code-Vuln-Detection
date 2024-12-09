@@ -1,0 +1,6 @@
+};
+
+&sdhci2 {
+	non-removable;
+	status = "okay";
+};

@@ -1,0 +1,189 @@
+diff -u libmagic.orig/apprentice.c libmagic/apprentice.c
+--- libmagic.orig/apprentice.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/apprentice.c	2012-04-22 18:57:16.215980866 +0200
+@@ -29,6 +29,8 @@
+  * apprentice - make one pass through /etc/magic, learning its secrets.
+  */
+ 
+ 		m->str_flags = swap4(m->str_flags);
+ 	}
+diff -u libmagic.orig/ascmagic.c libmagic/ascmagic.c
+--- libmagic.orig/ascmagic.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/ascmagic.c	2012-04-22 18:57:16.215980866 +0200
+@@ -139,10 +139,8 @@
+ 		/* malloc size is a conservative overestimate; could be
+ 		   improved, or at least realloced after conversion. */
+ 		mlen = ulen * 6;
+ 	return rv;
+ }
+diff -u libmagic.orig/cdf.c libmagic/cdf.c
+--- libmagic.orig/cdf.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/cdf.c	2012-04-22 18:57:16.219978162 +0200
+@@ -43,7 +43,17 @@
+ #include <err.h>
+ #endif
+ #include <stdlib.h>
+ 				(void)fprintf(stderr, "timestamp %s\n", buf);
+ 			} else {
+diff -u libmagic.orig/cdf.h libmagic/cdf.h
+--- libmagic.orig/cdf.h	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/cdf.h	2012-04-22 18:57:16.219978162 +0200
+@@ -35,7 +35,7 @@
+ #ifndef _H_CDF_
+ #define _H_CDF_
+ 
+ void cdf_swap_header(cdf_header_t *);
+ void cdf_unpack_header(cdf_header_t *, char *);
+diff -u libmagic.orig/cdf_time.c libmagic/cdf_time.c
+--- libmagic.orig/cdf_time.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/cdf_time.c	2012-04-22 18:57:16.219978162 +0200
+@@ -96,7 +96,7 @@
+ }
+ 
+ int
+ 	static const char *ref = "Sat Apr 23 01:30:00 1977";
+ 	char *p, *q;
+diff -u libmagic.orig/compress.c libmagic/compress.c
+--- libmagic.orig/compress.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/compress.c	2012-04-22 18:57:16.219978162 +0200
+@@ -32,6 +32,7 @@
+  *	uncompress(method, old, n, newch) - uncompress old into new, 
+  *					    using method, return sizeof new
+  */
+-#endif
++#endif /* if PHP_FILEINFO_UNCOMPRESS */
+diff -u libmagic.orig/file.h libmagic/file.h
+--- libmagic.orig/file.h	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/file.h	2012-04-22 18:57:16.219978162 +0200
+@@ -33,11 +33,9 @@
+ #ifndef __file_h__
+ #define __file_h__
+ 
++
+ #endif /* __file_h__ */
+diff -u libmagic.orig/fsmagic.c libmagic/fsmagic.c
+--- libmagic.orig/fsmagic.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/fsmagic.c	2012-04-22 18:57:16.219978162 +0200
+@@ -59,27 +59,21 @@
+ # define minor(dev)  ((dev) & 0xff)
+ #endif
+ #undef HAVE_MAJOR
+ 
+ 	/*
+diff -u libmagic.orig/funcs.c libmagic/funcs.c
+--- libmagic.orig/funcs.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/funcs.c	2012-04-22 18:57:16.219978162 +0200
+@@ -41,52 +41,42 @@
+ #if defined(HAVE_WCTYPE_H)
+ #include <wctype.h>
+ #endif
++	return rep_cnt;
+ }
++
+diff -u libmagic.orig/magic.c libmagic/magic.c
+--- libmagic.orig/magic.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/magic.c	2012-04-22 18:57:16.219978162 +0200
+@@ -25,11 +25,6 @@
+  * SUCH DAMAGE.
+  */
+ 
+ public const char *
+ magic_error(struct magic_set *ms)
+diff -u libmagic.orig/magic.h libmagic/magic.h
+--- libmagic.orig/magic.h	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/magic.h	2012-04-22 18:57:16.219978162 +0200
+@@ -85,6 +85,7 @@
+ 
+ const char *magic_getpath(const char *, int);
+ const char *magic_file(magic_t, const char *);
+ int magic_errno(magic_t);
+ 
+diff -u libmagic.orig/print.c libmagic/print.c
+--- libmagic.orig/print.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/print.c	2012-05-29 14:34:03.770376387 +0200
+@@ -29,6 +29,9 @@
+  * print.c - debugging printout routines
+  */
+ 
+ 
+ protected const char *
+diff -u libmagic.orig/readcdf.c libmagic/readcdf.c
+--- libmagic.orig/readcdf.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/readcdf.c	2012-04-22 18:57:16.219978162 +0200
+@@ -30,7 +30,11 @@
+ #endif
+ 
+ #include <stdlib.h>
+                                         if ((ec = strchr(c, '\n')) != NULL)
+                                                 *ec = '\0';
+diff -u libmagic.orig/readelf.c libmagic/readelf.c
+--- libmagic.orig/readelf.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/readelf.c	2012-04-22 18:57:16.219978162 +0200
+@@ -49,7 +49,7 @@
+     off_t, int *, int);
+ private int doshn(struct magic_set *, int, int, int, off_t, int, size_t,
+     off_t, int *, int);
+ 
+ 	if (fstat(fd, &st) == -1) {
+diff -u libmagic.orig/softmagic.c libmagic/softmagic.c
+--- libmagic.orig/softmagic.c	2012-05-29 14:40:41.710960045 +0200
++++ libmagic/softmagic.c	2012-05-29 14:34:31.900417647 +0200
+@@ -41,6 +41,11 @@
+ #include <stdlib.h>
+ #include <time.h>
+ 
+ 		}
+ 	}
+ 
+@@ -1669,6 +1642,42 @@
+ 	return file_strncmp(a, b, len, flags);
+ }
+ 
++public void
++		
++		for (i=0; i<Z_STRLEN_P(pattern); i++, j++) {
++			switch (Z_STRVAL_P(pattern)[i]) {
++				case '~':
++					t[j++] = '\\';
++					t[j] = '~';
++					break;
+ private int
+ magiccheck(struct magic_set *ms, struct magic *m)
+ {
+@@ -1825,67 +1834,163 @@
+ 		break;
+ 	}
+ 	case FILE_REGEX: {
+-		int rc;
+-		if (ms->search.s == NULL)
+-			return 0;
+-
+-		l = 0;
+-		rc = regcomp(&rx, m->value.s,
+-		    REG_EXTENDED|REG_NEWLINE|
+-		    ((m->str_flags & STRING_IGNORE_CASE) ? REG_ICASE : 0));
+-		if (rc) {
+-			size_t l = ms->search.s_len - 1;
+-			char c = ms->search.s[l];
+-			((char *)(intptr_t)ms->search.s)[l] = '\0';
++		zval *pattern;
++		int options = 0;
++		pcre_cache_entry *pce;
++		TSRMLS_FETCH();
++		
++		MAKE_STD_ZVAL(pattern);
++		ZVAL_STRINGL(pattern, (char *)m->value.s, m->vallen, 0);
++	
++		options |= PCRE_MULTILINE;
++		
++		if (m->str_flags & STRING_IGNORE_CASE) {
++			options |= PCRE_CASELESS;
++		}
++		
++		convert_libmagic_pattern(pattern, options);
++		
++		l = v = 0;
++#if (PHP_MAJOR_VERSION < 6)
++		if ((pce = pcre_get_compiled_regex_cache(Z_STRVAL_P(pattern), Z_STRLEN_P(pattern) TSRMLS_CC)) == NULL) {
+ #else
+-			pmatch[0].rm_so = 0;

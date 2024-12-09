@@ -1,0 +1,4 @@
+MODULE_DESCRIPTION("SHA1 Secure Hash Algorithm");
+
+MODULE_ALIAS_CRYPTO("sha1");
+MODULE_ALIAS_CRYPTO("sha1-generic");

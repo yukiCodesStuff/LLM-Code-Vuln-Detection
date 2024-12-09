@@ -1,0 +1,220 @@
+		partition@5 {
+			label = "rootfs";
+			reg = <0x004c0000 0x0fb40000>;
+		};
+	};
+
+	ethernet@gpmc {
+		compatible = "smsc,lan91c94";
+
+		status = "disabled";
+
+		interrupt-parent = <&gpio2>;
+		interrupts = <22 IRQ_TYPE_LEVEL_HIGH>;	/* gpio54 */
+		reg = <1 0x300 0xf>;		/* 16 byte IO range at offset 0x300 */
+		bank-width = <2>;
+		pinctrl-names = "default";
+		pinctrl-0 = <&ethernet_pins>;
+		power-gpios = <&gpio3 22 GPIO_ACTIVE_HIGH>;	/* gpio86 */
+		reset-gpios = <&gpio6 4 GPIO_ACTIVE_HIGH>;	/* gpio164 */
+		gpmc,device-width = <2>;
+		gpmc,sync-clk-ps = <0>;
+		gpmc,cs-on-ns = <0>;
+		gpmc,cs-rd-off-ns = <48>;
+		gpmc,cs-wr-off-ns = <24>;
+		gpmc,adv-on-ns = <0>;
+		gpmc,adv-rd-off-ns = <0>;
+		gpmc,adv-wr-off-ns = <0>;
+		gpmc,we-on-ns = <12>;
+		gpmc,we-off-ns = <18>;
+		gpmc,oe-on-ns = <12>;
+		gpmc,oe-off-ns = <48>;
+		gpmc,page-burst-access-ns = <0>;
+		gpmc,access-ns = <42>;
+		gpmc,rd-cycle-ns = <180>;
+		gpmc,wr-cycle-ns = <180>;
+		gpmc,bus-turnaround-ns = <0>;
+		gpmc,cycle2cycle-delay-ns = <0>;
+		gpmc,wait-monitoring-ns = <0>;
+		gpmc,clk-activation-ns = <0>;
+		gpmc,wr-access-ns = <0>;
+		gpmc,wr-data-mux-bus-ns = <12>;
+	};
+};
+
+&mcspi1 {
+	/*
+	 * For some reason, touchscreen is necessary for screen to work at
+	 * all on real hw. It works well without it on emulator.
+	 *
+	 * Also... order in the device tree actually matters here.
+	 */
+	tsc2005@0 {
+		compatible = "ti,tsc2005";
+		spi-max-frequency = <6000000>;
+		reg = <0>;
+
+		vio-supply = <&vio>;
+
+		reset-gpios = <&gpio4 8 GPIO_ACTIVE_HIGH>; /* 104 */
+		interrupts-extended = <&gpio4 4 IRQ_TYPE_EDGE_RISING>; /* 100 */
+
+		touchscreen-fuzz-x = <4>;
+		touchscreen-fuzz-y = <7>;
+		touchscreen-fuzz-pressure = <2>;
+		touchscreen-max-x = <4096>;
+		touchscreen-max-y = <4096>;
+		touchscreen-max-pressure = <2048>;
+
+		ti,x-plate-ohms = <280>;
+		ti,esd-recovery-timeout-ms = <8000>;
+	};
+
+	acx565akm@2 {
+		compatible = "sony,acx565akm";
+		spi-max-frequency = <6000000>;
+		reg = <2>;
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&acx565akm_pins>;
+
+		label = "lcd";
+		reset-gpios = <&gpio3 26 GPIO_ACTIVE_HIGH>; /* 90 */
+
+		port {
+			lcd_in: endpoint {
+				remote-endpoint = <&sdi_out>;
+			};
+		};
+	};
+};
+
+&mcspi4 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&mcspi4_pins>;
+
+	wl1251@0 {
+		pinctrl-names = "default";
+		pinctrl-0 = <&wl1251_pins>;
+
+		vio-supply = <&vio>;
+
+		compatible = "ti,wl1251";
+		reg = <0>;
+		spi-max-frequency = <48000000>;
+
+		spi-cpol;
+		spi-cpha;
+
+		ti,power-gpio = <&gpio3 23 GPIO_ACTIVE_HIGH>; /* 87 */
+
+		interrupt-parent = <&gpio2>;
+		interrupts = <10 IRQ_TYPE_NONE>; /* gpio line 42 */
+	};
+};
+
+&usb_otg_hs {
+	interface-type = <0>;
+	usb-phy = <&usb2_phy>;
+	phys = <&usb2_phy>;
+	phy-names = "usb2-phy";
+	mode = <2>;
+	power = <50>;
+};
+
+&uart1 {
+	status = "disabled";
+};
+
+&uart2 {
+	interrupts-extended = <&intc 73 &omap3_pmx_core OMAP3_UART2_RX>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart2_pins>;
+};
+
+&uart3 {
+	interrupts-extended = <&intc 74 &omap3_pmx_core OMAP3_UART3_RX>;
+	pinctrl-names = "default";
+	pinctrl-0 = <&uart3_pins>;
+};
+
+&dss {
+	status = "ok";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&dss_sdi_pins>;
+
+	vdds_sdi-supply = <&vaux1>;
+
+	ports {
+		#address-cells = <1>;
+		#size-cells = <0>;
+
+		port@1 {
+			reg = <1>;
+
+			sdi_out: endpoint {
+				remote-endpoint = <&lcd_in>;
+				datapairs = <2>;
+			};
+		};
+	};
+};
+
+&venc {
+	status = "ok";
+
+	vdda-supply = <&vdac>;
+
+	port {
+		venc_out: endpoint {
+			remote-endpoint = <&tv_connector_in>;
+			ti,channels = <1>;
+		};
+	};
+};
+
+&mcbsp2 {
+	status = "ok";
+};
+
+&ssi_port1 {
+	pinctrl-names = "default";
+	pinctrl-0 = <&ssi_pins>;
+
+	ti,ssi-cawake-gpio = <&gpio5 23 GPIO_ACTIVE_HIGH>; /* 151 */
+
+	modem: hsi-client {
+		compatible = "nokia,n900-modem";
+
+		pinctrl-names = "default";
+		pinctrl-0 = <&modem_pins>;
+
+		hsi-channel-ids = <0>, <1>, <2>, <3>;
+		hsi-channel-names = "mcsaab-control",
+				    "speech-control",
+				    "speech-data",
+				    "mcsaab-data";
+		hsi-speed-kbps = <55000>;
+		hsi-mode = "frame";
+		hsi-flow = "synchronized";
+		hsi-arb-mode = "round-robin";
+
+		interrupts-extended = <&gpio3 8 IRQ_TYPE_EDGE_FALLING>; /* 72 */
+
+		gpios = <&gpio3  6 GPIO_ACTIVE_HIGH>, /* 70 */
+			<&gpio3  9 GPIO_ACTIVE_HIGH>, /* 73 */
+			<&gpio3 10 GPIO_ACTIVE_HIGH>, /* 74 */
+			<&gpio3 11 GPIO_ACTIVE_HIGH>, /* 75 */
+			<&gpio5 29 GPIO_ACTIVE_HIGH>; /* 157 */
+		gpio-names = "cmt_apeslpx",
+			     "cmt_rst_rq",
+			     "cmt_en",
+			     "cmt_rst",
+			     "cmt_bsi";
+	};
+};
+
+&ssi_port2 {
+	status = "disabled";
+};

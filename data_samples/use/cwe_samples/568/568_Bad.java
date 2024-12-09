@@ -1,0 +1,4 @@
+
+                  protected void finalize() {discardNative();}
+               
+            

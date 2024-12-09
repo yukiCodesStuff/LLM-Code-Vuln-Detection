@@ -1,0 +1,7 @@
+	struct msg_desc msgdesc;
+
+	ack_APIC_irq();
+	time_start = get_cycles();
+
+	bcp = &per_cpu(bau_control, smp_processor_id());
+	stat = bcp->statp;

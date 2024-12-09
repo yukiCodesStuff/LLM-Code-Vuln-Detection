@@ -1,0 +1,55 @@
+				db8500_esram34_ret_reg: db8500_esram34_ret {
+					regulator-name = "db8500-esram34-ret";
+				};
+			};
+
+			ab8500 {
+				ab8500-regulators {
+					ab8500_ldo_aux1_reg: ab8500_ldo_aux1 {
+						regulator-name = "V-DISPLAY";
+					};
+
+					ab8500_ldo_aux2_reg: ab8500_ldo_aux2 {
+						regulator-name = "V-eMMC1";
+					};
+
+					ab8500_ldo_aux3_reg: ab8500_ldo_aux3 {
+						regulator-name = "V-MMC-SD";
+					};
+
+					ab8500_ldo_initcore_reg: ab8500_ldo_initcore {
+						regulator-name = "V-INTCORE";
+					};
+
+					ab8500_ldo_tvout_reg: ab8500_ldo_tvout {
+						regulator-name = "V-TVOUT";
+					};
+
+					ab8500_ldo_usb_reg: ab8500_ldo_usb {
+						regulator-name = "dummy";
+					};
+
+					ab8500_ldo_audio_reg: ab8500_ldo_audio {
+						regulator-name = "V-AUD";
+					};
+
+					ab8500_ldo_anamic1_reg: ab8500_ldo_anamic1 {
+						regulator-name = "V-AMIC1";
+					};
+
+					ab8500_ldo_amamic2_reg: ab8500_ldo_amamic2 {
+						regulator-name = "V-AMIC2";
+					};
+
+					ab8500_ldo_dmic_reg: ab8500_ldo_dmic {
+						regulator-name = "V-DMIC";
+					};
+
+					ab8500_ldo_ana_reg: ab8500_ldo_ana {
+						regulator-name = "V-CSI/DSI";
+					};
+				};
+			};
+		};
+	};
+};

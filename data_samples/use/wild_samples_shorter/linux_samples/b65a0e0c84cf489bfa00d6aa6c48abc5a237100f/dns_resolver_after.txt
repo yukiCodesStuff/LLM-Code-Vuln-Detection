@@ -1,0 +1,21 @@
+	create	dns_resolver  	foo:*	*	/usr/sbin/dns.foo %k
+
+
+=====
+USAGE
+=====
+
+     returned also.
+
+
+===============================
+READING DNS KEYS FROM USERSPACE
+===============================
+
+Keys of dns_resolver type can be read from userspace using keyctl_read() or
+"keyctl read/print/pipe".
+
+
+=========
+MECHANISM
+=========

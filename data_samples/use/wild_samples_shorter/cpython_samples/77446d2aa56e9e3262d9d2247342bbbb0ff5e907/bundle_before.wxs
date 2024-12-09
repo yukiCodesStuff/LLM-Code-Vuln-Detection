@@ -1,0 +1,9 @@
+      <PackageGroupRef Id="crt" />
+      <?endif ?>
+      <PackageGroupRef Id="core" />
+      <PackageGroupRef Id="dev" />
+      <PackageGroupRef Id="exe" />
+      <PackageGroupRef Id="lib" />
+      <PackageGroupRef Id="test" />
+      <PackageGroupRef Id="doc" />
+      <PackageGroupRef Id="tools" />

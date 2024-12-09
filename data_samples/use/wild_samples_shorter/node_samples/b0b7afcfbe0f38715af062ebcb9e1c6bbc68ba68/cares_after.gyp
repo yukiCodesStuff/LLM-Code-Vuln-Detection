@@ -1,0 +1,8 @@
+        'include/ares_rules.h',
+        'include/ares_version.h',
+        'include/nameser.h',
+        'src/ares_android.c',
+        'src/ares_cancel.c',
+        'src/ares__close_sockets.c',
+        'src/ares_create_query.c',
+        'src/ares_data.c',

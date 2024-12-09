@@ -1,0 +1,8 @@
+
+	aliases {
+		serial0 = &uart0;
+		/* ethernet0 is the H3 emac, defined in sun8i-h3.dtsi */
+		ethernet1 = &sdiowifi;
+	};
+
+	chosen {

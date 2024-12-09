@@ -1,0 +1,13 @@
+					       tsx_async_abort=off [X86]
+					       kvm.nx_huge_pages=off [X86]
+					       no_entry_flush [PPC]
+
+				Exceptions:
+					       This does not have any effect on
+					       kvm.nx_huge_pages when
+	nospec_store_bypass_disable
+			[HW] Disable all mitigations for the Speculative Store Bypass vulnerability
+
+	noxsave		[BUGS=X86] Disables x86 extended register state save
+			and restore using xsave. The kernel will fallback to
+			enabling legacy floating-point and sse state.

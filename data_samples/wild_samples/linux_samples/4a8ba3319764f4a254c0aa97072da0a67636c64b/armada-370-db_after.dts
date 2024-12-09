@@ -1,0 +1,5 @@
+	spdif_in: spdif-in {
+		#sound-dai-cells = <0>;
+		compatible = "linux,spdif-dir";
+	};
+};

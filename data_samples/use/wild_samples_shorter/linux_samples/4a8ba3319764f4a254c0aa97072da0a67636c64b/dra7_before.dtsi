@@ -1,0 +1,21 @@
+				tx-fifo-resize;
+				maximum-speed = "super-speed";
+				dr_mode = "otg";
+			};
+		};
+
+		omap_dwc3_2: omap_dwc3_2@488c0000 {
+				tx-fifo-resize;
+				maximum-speed = "high-speed";
+				dr_mode = "otg";
+			};
+		};
+
+		/* IRQ for DWC3_3 and DWC3_4 need IRQ crossbar */
+				tx-fifo-resize;
+				maximum-speed = "high-speed";
+				dr_mode = "otg";
+			};
+		};
+
+		elm: elm@48078000 {

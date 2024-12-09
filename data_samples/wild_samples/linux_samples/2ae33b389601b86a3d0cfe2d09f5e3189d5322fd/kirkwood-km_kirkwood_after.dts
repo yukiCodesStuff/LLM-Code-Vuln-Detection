@@ -1,0 +1,16 @@
+			pmx_i2c_gpio_scl: pmx-gpio-scl {
+				marvell,pins = "mpp9";
+				marvell,function = "gpio";
+			};
+		};
+
+		serial@12000 {
+			status = "ok";
+		};
+
+		nand@3000000 {
+			status = "ok";
+			chip-delay = <25>;
+		};
+	};
+};

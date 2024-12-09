@@ -1,0 +1,8 @@
+	pinctrl-names = "default";
+	pinctrl-0 = <&mmc1_pins>;
+	bus-width = <0x4>;
+	cd-gpios = <&gpio0 6 GPIO_ACTIVE_HIGH>;
+	cd-inverted;
+	max-frequency = <26000000>;
+	vmmc-supply = <&vmmcsd_fixed>;
+	status = "okay";

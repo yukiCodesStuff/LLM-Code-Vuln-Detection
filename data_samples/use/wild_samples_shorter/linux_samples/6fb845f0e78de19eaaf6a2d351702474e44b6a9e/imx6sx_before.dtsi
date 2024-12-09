@@ -1,0 +1,8 @@
+			};
+
+			gpt: gpt@2098000 {
+				compatible = "fsl,imx6sx-gpt", "fsl,imx31-gpt";
+				reg = <0x02098000 0x4000>;
+				interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>;
+				clocks = <&clks IMX6SX_CLK_GPT_BUS>,
+					 <&clks IMX6SX_CLK_GPT_3M>;

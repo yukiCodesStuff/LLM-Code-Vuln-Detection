@@ -1,0 +1,21 @@
+	REGISTER_CURL_CONSTANT(CURLOPT_DNS_SERVERS);
+#endif
+
+#if LIBCURL_VERSION_NUM >= 0x071900 /* Available since 7.25.0 */
+	REGISTER_CURL_CONSTANT(CURLOPT_MAIL_AUTH);
+#endif
+
+#if CURLOPT_FTPASCII != 0
+	REGISTER_CURL_CONSTANT(CURLOPT_FTPASCII);
+#endif
+#if CURLOPT_MUTE != 0
+#if LIBCURL_VERSION_NUM >= 0x071800 /* Available since 7.24.0 */
+		case CURLOPT_DNS_SERVERS:
+#endif	
+#if LIBCURL_VERSION_NUM >= 0x071900 /* Available since 7.25.0 */
+		case CURLOPT_MAIL_AUTH:
+#endif
+		{
+#if LIBCURL_VERSION_NUM < 0x071100
+			char *copystr = NULL;
+#endif

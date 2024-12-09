@@ -1,0 +1,37 @@
+			interrupt-controller;
+			#interrupt-cells = <2>;
+			interrupts = <35>, <36>, <37>, <38>;
+		};
+
+		gpio1: gpio@10140 {
+			compatible = "marvell,orion-gpio";
+			interrupt-controller;
+			#interrupt-cells = <2>;
+			interrupts = <39>, <40>, <41>;
+		};
+
+		serial@12000 {
+			compatible = "ns16550a";
+			reg-shift = <2>;
+			interrupts = <33>;
+			clocks = <&gate_clk 7>;
+			/* set clock-frequency in board dts */
+			status = "disabled";
+		};
+
+		serial@12100 {
+			reg-shift = <2>;
+			interrupts = <34>;
+			clocks = <&gate_clk 7>;
+			/* set clock-frequency in board dts */
+			status = "disabled";
+		};
+
+		rtc@10300 {
+			compatible = "marvell,kirkwood-rtc", "marvell,orion-rtc";
+			reg = <0x10300 0x20>;
+			interrupts = <53>;
+		};
+
+		spi@10600 {
+			compatible = "marvell,orion-spi";

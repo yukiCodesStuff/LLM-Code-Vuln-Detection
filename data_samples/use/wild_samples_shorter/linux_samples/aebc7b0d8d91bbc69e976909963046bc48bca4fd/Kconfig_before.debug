@@ -1,0 +1,10 @@
+config DEBUG_LIST
+	bool "Debug linked list manipulation"
+	depends on DEBUG_KERNEL || BUG_ON_DATA_CORRUPTION
+	help
+	  Enable this to turn on extended checks in the linked-list
+	  walking routines.
+
+	  If unsure, say N.
+
+config DEBUG_PLIST

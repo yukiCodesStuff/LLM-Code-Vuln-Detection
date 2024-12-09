@@ -1,0 +1,19 @@
+s64 SHOULD be printed with %lld/%llx, (long long):
+
+	printk("%lld", (long long)s64_var);
+
+If <type> is dependent on a config option for its size (e.g., sector_t,
+blkcnt_t) or is architecture-dependent for its size (e.g., tcflag_t), use a
+format specifier of its largest possible type and explicitly cast to it.
+Example:
+
+	printk("test: sector number/total blocks: %llu/%llu\n",
+		(unsigned long long)sector, (unsigned long long)blockcount);
+
+Reminder: sizeof() result is of type size_t.
+
+Thank you for your cooperation and attention.
+
+
+By Randy Dunlap <rdunlap@xenotime.net> and
+Andrew Murray <amurray@mpc-data.co.uk>

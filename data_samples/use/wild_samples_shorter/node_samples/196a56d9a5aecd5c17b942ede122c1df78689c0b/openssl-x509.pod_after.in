@@ -1,0 +1,36 @@
+
+Sets the CA serial number file to use.
+
+When creating a certificate with this option and with the B<-CA> option,
+the certificate serial number is stored in the given file.
+This file consists of one line containing
+an even number of hex digits with the serial number used last time.
+After reading this number, it is incremented and used, and the file is updated.
+
+The default filename consists of the CA certificate file base name with
+F<.srl> appended. For example if the CA certificate file is called
+F<mycacert.pem> it expects to find a serial number file called
+F<mycacert.srl>.
+
+If the B<-CA> option is specified and neither <-CAserial> or <-CAcreateserial>
+is given and the default serial number file does not exist,
+a random number is generated; this is the recommended practice.
+
+=item B<-CAcreateserial>
+
+With this option and the B<-CA> option
+the CA serial number file is created if it does not exist.
+A random number is generated, used for the certificate,
+and saved into the serial number file determined as described above.
+
+=back
+
+=head2 Trust Settings
+
+=head1 COPYRIGHT
+
+Copyright 2000-2022 The OpenSSL Project Authors. All Rights Reserved.
+
+Licensed under the Apache License 2.0 (the "License").  You may not use
+this file except in compliance with the License.  You can obtain a copy
+in the file LICENSE in the source distribution or at

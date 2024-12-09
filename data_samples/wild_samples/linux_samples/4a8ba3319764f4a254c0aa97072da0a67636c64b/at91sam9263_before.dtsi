@@ -1,0 +1,50 @@
+		fb0: fb@0x00700000 {
+			compatible = "atmel,at91sam9263-lcdc";
+			reg = <0x00700000 0x1000>;
+			interrupts = <26 IRQ_TYPE_LEVEL_HIGH 3>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_fb>;
+			status = "disabled";
+		};
+
+		nand0: nand@40000000 {
+			compatible = "atmel,at91rm9200-nand";
+			#address-cells = <1>;
+			#size-cells = <1>;
+			reg = <0x40000000 0x10000000
+			       0xffffe000 0x200
+			      >;
+			atmel,nand-addr-offset = <21>;
+			atmel,nand-cmd-offset = <22>;
+			pinctrl-names = "default";
+			pinctrl-0 = <&pinctrl_nand>;
+			gpios = <&pioA 22 GPIO_ACTIVE_HIGH
+				 &pioD 15 GPIO_ACTIVE_HIGH
+				 0
+				>;
+			status = "disabled";
+		};
+
+		usb0: ohci@00a00000 {
+			compatible = "atmel,at91rm9200-ohci", "usb-ohci";
+			reg = <0x00a00000 0x100000>;
+			interrupts = <29 IRQ_TYPE_LEVEL_HIGH 2>;
+			clocks = <&usb>, <&ohci_clk>, <&ohci_clk>, <&uhpck>;
+			clock-names = "usb_clk", "ohci_clk", "hclk", "uhpck";
+			status = "disabled";
+		};
+	};
+
+	i2c@0 {
+		compatible = "i2c-gpio";
+		gpios = <&pioB 4 GPIO_ACTIVE_HIGH /* sda */
+			 &pioB 5 GPIO_ACTIVE_HIGH /* scl */
+			>;
+		i2c-gpio,sda-open-drain;
+		i2c-gpio,scl-open-drain;
+		i2c-gpio,delay-us = <2>;	/* ~100 kHz */
+		#address-cells = <1>;
+		#size-cells = <0>;
+		status = "disabled";
+	};
+};

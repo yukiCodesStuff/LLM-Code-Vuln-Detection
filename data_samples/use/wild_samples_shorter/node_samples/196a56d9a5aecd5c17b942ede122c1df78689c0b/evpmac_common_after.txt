@@ -1,0 +1,13 @@
+#
+# Copyright 2001-2022 The OpenSSL Project Authors. All Rights Reserved.
+#
+# Licensed under the Apache License 2.0 (the "License").  You may not use
+# this file except in compliance with the License.  You can obtain a copy
+# in the file LICENSE in the source distribution or at
+Key = 000102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e1f
+Result = MAC_INIT_ERROR
+
+Title = CMAC tests (from FIPS module)
+
+MAC = CMAC
+Algorithm = AES-128-CBC

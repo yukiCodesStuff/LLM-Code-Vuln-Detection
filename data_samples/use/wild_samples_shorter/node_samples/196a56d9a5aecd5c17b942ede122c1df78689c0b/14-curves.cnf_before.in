@@ -1,0 +1,7 @@
+            },
+        };
+    }
+    foreach (0..$#curves_tls_1_2) {
+        my $curve = $curves_tls_1_2[$_];
+        push @tests, {
+            name => "curve-${curve}-tls13",

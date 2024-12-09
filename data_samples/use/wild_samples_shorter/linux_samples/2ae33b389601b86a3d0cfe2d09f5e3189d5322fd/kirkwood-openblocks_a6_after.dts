@@ -1,0 +1,11 @@
+
+	ocp@f1000000 {
+		serial@12000 {
+			status = "ok";
+		};
+
+		serial@12100 {
+			status = "ok";
+		};
+
+		nand@3000000 {

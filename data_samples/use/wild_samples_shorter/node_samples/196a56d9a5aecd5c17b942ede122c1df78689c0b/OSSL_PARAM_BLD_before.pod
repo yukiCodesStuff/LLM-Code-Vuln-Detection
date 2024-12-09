@@ -1,0 +1,31 @@
+Both examples creating an OSSL_PARAM array that contains an RSA key.
+For both, the predefined key variables are:
+
+    BIGNUM *p, *q;  /* both prime */
+    BIGNUM *n;      /* = p * q */
+    unsigned int e; /* exponent, usually 65537 */
+    BIGNUM *d;      /* e^-1 */
+
+=head2 Example 1
+
+This example shows how to create an OSSL_PARAM array that contains an RSA
+    OSSL_PARAM *params = NULL;
+
+    if (bld == NULL
+        || !OSSL_PARAM_BLD_push_BN(bld, "p", p)
+        || !OSSL_PARAM_BLD_push_BN(bld, "q", q)
+        || !OSSL_PARAM_BLD_push_uint(bld, "e", e)
+        || !OSSL_PARAM_BLD_push_BN(bld, "n", n)
+        || !OSSL_PARAM_BLD_push_BN(bld, "d", d)
+        || (params = OSSL_PARAM_BLD_to_param(bld)) == NULL)
+        goto err;
+    OSSL_PARAM_BLD_free(bld);
+    /* Use params */
+
+    if (nld == NULL
+        || !OSSL_PARAM_BLD_push_BN(bld, "n", n)
+        || !OSSL_PARAM_BLD_push_BN(bld, "e", e)
+        || (params = OSSL_PARAM_BLD_to_param(bld)) == NULL)
+        goto err;
+    OSSL_PARAM_BLD_free(bld);
+    /* Use params */

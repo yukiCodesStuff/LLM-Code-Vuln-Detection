@@ -1,0 +1,16 @@
+		mvsdio@d00d4000 {
+			pinctrl-0 = <&sdio_pins1>;
+			pinctrl-names = "default";
+			status = "okay";
+			/* No CD or WP GPIOs */
+		};
+
+		usb@d0050000 {
+			status = "okay";
+		};
+
+		usb@d0051000 {
+			status = "okay";
+		};
+	};
+};

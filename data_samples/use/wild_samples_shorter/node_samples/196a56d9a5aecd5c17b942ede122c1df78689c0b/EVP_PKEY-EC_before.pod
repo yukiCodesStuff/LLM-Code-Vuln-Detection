@@ -1,0 +1,8 @@
+
+=item "pub" (B<OSSL_PKEY_PARAM_PUB_KEY>) <octet string>
+
+The public key value in EC point format.
+
+=item "priv" (B<OSSL_PKEY_PARAM_PRIV_KEY>) <unsigned integer>
+
+The private key value.

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+# Variable declaration
+prefix='@prefix@'
+datarootdir='@datarootdir@'
+exec_prefix="`eval echo @exec_prefix@`"
+phpdir="`eval echo @libdir@`/build"
+includedir="`eval echo @includedir@`/php"
+builddir="`pwd`"
+SED="@SED@"
+
+FILES_BUILD="mkdep.awk scan_makefile_in.awk shtool libtool.m4"
+FILES="acinclude.m4 Makefile.global config.sub config.guess ltmain.sh run-tests*.php"
+CLEAN_FILES="$FILES *.o *.lo *.la .deps .libs/ build/ include/ modules/ install-sh \
+	mkinstalldirs missing config.nice config.sub config.guess configure configure.in \
+	aclocal.m4 config.h config.h.in conftest* ltmain.sh libtool config.cache autom4te.cache/ \
+	config.log config.status Makefile Makefile.fragments Makefile.objects confdefs.h \
+	run-tests*.php tests/*.diff tests/*.exp tests/*.log tests/*.out tests/*.php"
+
+# function declaration
+phpize_usage()
+{
+  echo "Usage: $0 [--clean|--help|--version|-v]"
+}

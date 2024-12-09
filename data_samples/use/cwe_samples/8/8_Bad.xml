@@ -1,0 +1,4 @@
+
+                  <ejb-jar><enterprise-beans><entity><ejb-name>EmployeeRecord</ejb-name><home>com.wombat.empl.EmployeeRecordHome</home><remote>com.wombat.empl.EmployeeRecord</remote>...</entity>...</enterprise-beans></ejb-jar>
+               
+            

@@ -1,0 +1,8 @@
+
+	aliases {
+		serial0 = &uart0;
+		ethernet0 = &emac;
+		ethernet1 = &sdiowifi;
+	};
+
+	chosen {

@@ -1,0 +1,8 @@
+
+                  <sun-web-app>
+                        ...<session-config>
+                              <session-properties><property name="idLengthBytes" value="8"><description>The number of bytes in this web module's session ID.</description></property></session-properties>
+                           </session-config>...
+                     </sun-web-app>
+               
+               

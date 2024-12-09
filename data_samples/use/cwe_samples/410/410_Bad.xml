@@ -1,0 +1,4 @@
+
+                  <Resource name="jdbc/exampledb"auth="Container"type="javax.sql.DataSource"removeAbandoned="true"removeAbandonedTimeout="30"maxActive="5"maxIdle="5"maxWait="60000"username="testuser"password="testpass"driverClassName="com.mysql.jdbc.Driver"url="jdbc:mysql://localhost/exampledb"/>
+               
+            

@@ -1,0 +1,51 @@
+	sd_card_slot: slot@1 {
+		compatible = "mmc-slot";
+		reg = <1>;
+		status = "okay";
+
+		bus-width = <4>;
+		no-sdio;
+		cap-mmc-highspeed;
+		cap-sd-highspeed;
+		disable-wp;
+
+		cd-gpios = <&gpio CARD_6 GPIO_ACTIVE_LOW>;
+
+		vmmc-supply = <&vcc_3v3>;
+	};
+};
+
+&pwm_cd {
+	status = "okay";
+	pinctrl-0 = <&pwm_c1_pins>;
+	pinctrl-names = "default";
+	clocks = <&clkc CLKID_XTAL>;
+	clock-names = "clkin0";
+};
+
+/* exposed through the pin headers labeled "URDUG1" on the top of the PCB */
+&uart_AO {
+	status = "okay";
+	pinctrl-0 = <&uart_ao_a_pins>;
+	pinctrl-names = "default";
+};
+
+/*
+ * connected to the Bluetooth part of the RTL8723BS SDIO wifi / Bluetooth
+ * combo chip. This is only available on the variant with 2GB RAM.
+ */
+&uart_B {
+	status = "okay";
+	pinctrl-0 = <&uart_b0_pins>, <&uart_b0_cts_rts_pins>;
+	pinctrl-names = "default";
+	uart-has-rtscts;
+};
+
+&usb1 {
+	status = "okay";
+	vbus-supply = <&usb_vbus>;
+};
+
+&usb1_phy {
+	status = "okay";
+};

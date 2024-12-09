@@ -1,0 +1,38 @@
+		ethmac: ethernet@c9410000 {
+			compatible = "amlogic,meson6-dwmac", "snps,dwmac";
+			reg = <0xc9410000 0x10000
+			       0xc1108108 0x4>;
+			interrupts = <GIC_SPI 8 IRQ_TYPE_EDGE_RISING>;
+			interrupt-names = "macirq";
+			status = "disabled";
+		};
+
+		ahb_sram: sram@d9000000 {
+			compatible = "mmio-sram";
+			reg = <0xd9000000 0x20000>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0 0xd9000000 0x20000>;
+		};
+
+		bootrom: bootrom@d9040000 {
+			compatible = "amlogic,meson-mx-bootrom", "syscon";
+			reg = <0xd9040000 0x10000>;
+		};
+
+		secbus: secbus@da000000 {
+			compatible = "simple-bus";
+			reg = <0xda000000 0x6000>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			ranges = <0x0 0xda000000 0x6000>;
+
+			efuse: nvmem@0 {
+				compatible = "amlogic,meson6-efuse";
+				reg = <0x0 0x2000>;
+				#address-cells = <1>;
+				#size-cells = <1>;
+			};
+		};
+	};
+}; /* end of / */

@@ -1,0 +1,6 @@
+
+                  ...
+                     // copy filename to buffer
+                     strncpy(buf, filename, sizeof(buf)-1);...
+               
+            

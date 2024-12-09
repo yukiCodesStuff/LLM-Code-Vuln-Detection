@@ -1,0 +1,3 @@
+MODULE_LICENSE("GPL");
+MODULE_DESCRIPTION("Kernel Random Number Generator");
+MODULE_ALIAS_CRYPTO("stdrng");

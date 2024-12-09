@@ -1,0 +1,21 @@
+      <ComponentRef Id="NodeRegistryEntries"/>
+      <ComponentRef Id="NodeVarsScript"/>
+      <ComponentRef Id="NodeStartMenu"/>
+      <ComponentRef Id="InstallToolsBat" />
+      <ComponentRef Id="SetInstallDirPermission" />
+    </Feature>
+
+      <ComponentRef Id="NpxCmdScript"/>
+      <ComponentRef Id="NpxBashScript"/>
+      <ComponentRef Id="NpmConfigurationFile"/>
+      <ComponentRef Id="SetInstallDirPermission" />
+      <ComponentGroupRef Id="NpmSourceFiles"/>
+    </Feature>
+
+      </Directory>
+    </DirectoryRef>
+
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <Component Id="DocumentationShortcuts">
+        <RegistryValue Root="HKCU"
+                       Key="$(var.RegistryKeyPath)\Components"

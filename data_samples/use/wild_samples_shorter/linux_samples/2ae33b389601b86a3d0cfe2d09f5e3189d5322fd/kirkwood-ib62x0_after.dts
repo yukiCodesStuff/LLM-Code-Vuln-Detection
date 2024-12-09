@@ -1,0 +1,7 @@
+			};
+		};
+		serial@12000 {
+			status = "okay";
+		};
+
+		sata@80000 {

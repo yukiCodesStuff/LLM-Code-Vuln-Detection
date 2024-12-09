@@ -1,0 +1,2 @@
+class Widget{private:Image* backgroundImage;public:void click(){if (backgroundImage){backgroundImage->click();}}void changeBackgroundImage(Image* newImage){if (backgroundImage){delete backgroundImage;}backgroundImage = newImage;}}class Image{public:void click(){scriptEngine->fireOnImageClick();/* perform some operations using "this" pointer */}}
+				

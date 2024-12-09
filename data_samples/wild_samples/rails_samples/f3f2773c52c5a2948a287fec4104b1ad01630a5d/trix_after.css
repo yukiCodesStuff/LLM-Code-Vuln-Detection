@@ -1,0 +1,8 @@
+  trix-editor .attachment__metadata .attachment__size {
+    margin-left: 0.2em;
+    white-space: nowrap; }
+
+.trix-content {
+  line-height: 1.5;
+  overflow-wrap: break-word;
+  word-break: break-word; }

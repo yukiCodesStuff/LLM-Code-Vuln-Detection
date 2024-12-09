@@ -1,0 +1,22 @@
+
+X509 Distinguished Name (DN) of subject to use in the requested certificate
+template.
+If the NULL-DN (C<"/">) is given then no subject is placed in the template.
+Default is the subject DN of any PKCS#10 CSR given with the B<-csr> option.
+For KUR, a further fallback is the subject DN
+of the reference certificate (see B<-oldcert>) if provided.
+This fallback is used for IR and CR only if no SANs are set.
+
+If provided and neither B<-cert> nor B<-oldcert> is given,
+the subject DN is used as fallback sender of outgoing CMP messages.
+
+
+PKCS#10 CSR in PEM or DER format containing a certificate request.
+With B<-cmd> I<p10cr> it is used directly in a legacy P10CR message.
+When used with B<-cmd> I<ir>, I<cr>, or I<kur>,
+it is transformed into the respective regular CMP request,
+while its public key is ignored if I<-newkey> is given.
+It may also be used with B<-cmd> I<rr> to specify the certificate to be revoked
+via the included subject name and public key.
+
+=item B<-out_trusted> I<filenames>|I<uris>

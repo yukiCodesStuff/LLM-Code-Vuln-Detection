@@ -1,0 +1,4 @@
+
+                  public: char* password;
+               
+               

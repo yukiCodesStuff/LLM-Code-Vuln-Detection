@@ -1,0 +1,22 @@
+- overflowgid
+- pipe-user-pages-hard
+- pipe-user-pages-soft
+- protected_hardlinks
+- protected_symlinks
+- suid_dumpable
+- super-max
+- super-nr
+
+==============================================================
+
+protected_hardlinks:
+
+A long-standing class of security issues is the hardlink-based
+time-of-check-time-of-use race, most commonly seen in world-writable
+
+==============================================================
+
+protected_symlinks:
+
+A long-standing class of security issues is the symlink-based
+time-of-check-time-of-use race, most commonly seen in world-writable

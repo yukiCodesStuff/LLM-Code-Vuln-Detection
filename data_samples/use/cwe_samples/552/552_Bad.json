@@ -1,0 +1,30 @@
+
+		     {
+		     
+		       "bindings":[{
+		       
+			 "members":[
+			 
+			   "projectEditor: PROJECT-ID",
+			   "projectOwner: PROJECT-ID"
+			 
+			 ],
+			 "role":"roles/storage.legacyBucketOwner"
+		       
+		       },
+		       {
+		       
+			 "members":[
+			 
+			   "allUsers",
+			   "projectViewer: PROJECT-ID"
+			   ],
+			   "role":"roles/storage.legacyBucketReader"
+			 
+			 }
+		       
+		       ]
+		     
+		     }
+		   
+		   

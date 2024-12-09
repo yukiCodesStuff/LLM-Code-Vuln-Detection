@@ -1,0 +1,8 @@
+    {"no_certs", OPT_NO_CERTS, '-',
+     "Don't include any certificates in signed request"},
+    {"badsig", OPT_BADSIG, '-',
+        "Corrupt last byte of loaded OCSP response signature (for test)"},
+    {"CA", OPT_CA, '<', "CA certificate"},
+    {"nmin", OPT_NMIN, 'p', "Number of minutes before next update"},
+    {"nrequest", OPT_REQUEST, 'p',
+     "Number of requests to accept (default unlimited)"},

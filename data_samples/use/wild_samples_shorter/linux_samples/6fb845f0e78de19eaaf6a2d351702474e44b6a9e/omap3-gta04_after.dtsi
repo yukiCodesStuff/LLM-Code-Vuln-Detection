@@ -1,0 +1,8 @@
+
+	vdda-supply = <&vdac>;
+
+	port {
+		venc_out: endpoint {
+			remote-endpoint = <&opa_in>;
+			ti,channels = <1>;
+			ti,invert-polarity;

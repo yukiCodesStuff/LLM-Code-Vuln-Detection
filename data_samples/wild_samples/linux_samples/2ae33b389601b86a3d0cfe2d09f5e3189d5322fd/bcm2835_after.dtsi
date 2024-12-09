@@ -1,0 +1,8 @@
+		clk_i2c: i2c {
+			compatible = "fixed-clock";
+			reg = <1>;
+			#clock-cells = <0>;
+			clock-frequency = <250000000>;
+		};
+	};
+};

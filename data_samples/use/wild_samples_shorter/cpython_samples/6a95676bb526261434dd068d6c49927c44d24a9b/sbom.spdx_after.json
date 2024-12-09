@@ -1,0 +1,12 @@
+      "checksums": [
+        {
+          "algorithm": "SHA1",
+          "checksumValue": "f50c899172acd93fc539007bfb43315b83d407e4"
+        },
+        {
+          "algorithm": "SHA256",
+          "checksumValue": "d571b8258cfaa067a20adef553e5fcedd6671ca4a8841483496de031bd904567"
+        }
+      ],
+      "fileName": "Modules/expat/pyexpatns.h"
+    },

@@ -1,0 +1,478 @@
+			usb1: usb@48890000 {
+				compatible = "snps,dwc3";
+				reg = <0x48890000 0x17000>;
+				interrupts = <GIC_SPI 71 IRQ_TYPE_LEVEL_HIGH>;
+				phys = <&usb2_phy1>, <&usb3_phy1>;
+				phy-names = "usb2-phy", "usb3-phy";
+				tx-fifo-resize;
+				maximum-speed = "super-speed";
+				dr_mode = "otg";
+				snps,dis_u3_susphy_quirk;
+				snps,dis_u2_susphy_quirk;
+			};
+		};
+
+		omap_dwc3_2: omap_dwc3_2@488c0000 {
+			compatible = "ti,dwc3";
+			ti,hwmods = "usb_otg_ss2";
+			reg = <0x488c0000 0x10000>;
+			interrupts = <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			utmi-mode = <2>;
+			ranges;
+			usb2: usb@488d0000 {
+				compatible = "snps,dwc3";
+				reg = <0x488d0000 0x17000>;
+				interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+				phys = <&usb2_phy2>;
+				phy-names = "usb2-phy";
+				tx-fifo-resize;
+				maximum-speed = "high-speed";
+				dr_mode = "otg";
+				snps,dis_u3_susphy_quirk;
+				snps,dis_u2_susphy_quirk;
+			};
+		};
+
+		/* IRQ for DWC3_3 and DWC3_4 need IRQ crossbar */
+		omap_dwc3_3: omap_dwc3_3@48900000 {
+			compatible = "ti,dwc3";
+			ti,hwmods = "usb_otg_ss3";
+			reg = <0x48900000 0x10000>;
+			interrupts = <GIC_SPI 344 IRQ_TYPE_LEVEL_HIGH>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			utmi-mode = <2>;
+			ranges;
+			status = "disabled";
+			usb3: usb@48910000 {
+				compatible = "snps,dwc3";
+				reg = <0x48910000 0x17000>;
+				interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
+				tx-fifo-resize;
+				maximum-speed = "high-speed";
+				dr_mode = "otg";
+				snps,dis_u3_susphy_quirk;
+				snps,dis_u2_susphy_quirk;
+			};
+		};
+
+		elm: elm@48078000 {
+			compatible = "ti,am3352-elm";
+			reg = <0x48078000 0xfc0>;      /* device IO registers */
+			interrupts = <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
+			ti,hwmods = "elm";
+			status = "disabled";
+		};
+
+		gpmc: gpmc@50000000 {
+			compatible = "ti,am3352-gpmc";
+			ti,hwmods = "gpmc";
+			reg = <0x50000000 0x37c>;      /* device IO registers */
+			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
+			gpmc,num-cs = <8>;
+			gpmc,num-waitpins = <2>;
+			#address-cells = <2>;
+			#size-cells = <1>;
+			status = "disabled";
+		};
+
+		atl: atl@4843c000 {
+			compatible = "ti,dra7-atl";
+			reg = <0x4843c000 0x3ff>;
+			ti,hwmods = "atl";
+			ti,provided-clocks = <&atl_clkin0_ck>, <&atl_clkin1_ck>,
+					     <&atl_clkin2_ck>, <&atl_clkin3_ck>;
+			clocks = <&atl_gfclk_mux>;
+			clock-names = "fck";
+			status = "disabled";
+		};
+
+		crossbar_mpu: crossbar@4a020000 {
+			compatible = "ti,irq-crossbar";
+			reg = <0x4a002a48 0x130>;
+			ti,max-irqs = <160>;
+			ti,max-crossbar-sources = <MAX_SOURCES>;
+			ti,reg-size = <2>;
+			ti,irqs-reserved = <0 1 2 3 5 6 131 132>;
+			ti,irqs-skip = <10 133 139 140>;
+			ti,irqs-safe-map = <0>;
+		};
+
+		mac: ethernet@4a100000 {
+			compatible = "ti,cpsw";
+			ti,hwmods = "gmac";
+			clocks = <&dpll_gmac_ck>, <&gmac_gmii_ref_clk_div>;
+			clock-names = "fck", "cpts";
+			cpdma_channels = <8>;
+			ale_entries = <1024>;
+			bd_ram_size = <0x2000>;
+			no_bd_ram = <0>;
+			rx_descs = <64>;
+			mac_control = <0x20>;
+			slaves = <2>;
+			active_slave = <0>;
+			cpts_clock_mult = <0x80000000>;
+			cpts_clock_shift = <29>;
+			reg = <0x48484000 0x1000
+			       0x48485200 0x2E00>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			/*
+			 * rx_thresh_pend
+			 * rx_pend
+			 * tx_pend
+			 * misc_pend
+			 */
+			interrupts = <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 336 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 337 IRQ_TYPE_LEVEL_HIGH>;
+			ranges;
+			status = "disabled";
+
+			davinci_mdio: mdio@48485000 {
+				compatible = "ti,davinci_mdio";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				ti,hwmods = "davinci_mdio";
+				bus_freq = <1000000>;
+				reg = <0x48485000 0x100>;
+			};
+
+			cpsw_emac0: slave@48480200 {
+				/* Filled in by U-Boot */
+				mac-address = [ 00 00 00 00 00 00 ];
+			};
+
+			cpsw_emac1: slave@48480300 {
+				/* Filled in by U-Boot */
+				mac-address = [ 00 00 00 00 00 00 ];
+			};
+
+			phy_sel: cpsw-phy-sel@4a002554 {
+				compatible = "ti,dra7xx-cpsw-phy-sel";
+				reg= <0x4a002554 0x4>;
+				reg-names = "gmii-sel";
+			};
+		};
+
+		dcan1: can@481cc000 {
+			compatible = "ti,dra7-d_can";
+			ti,hwmods = "dcan1";
+			reg = <0x4ae3c000 0x2000>;
+			syscon-raminit = <&dra7_ctrl_core 0x558 0>;
+			interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&dcan1_sys_clk_mux>;
+			status = "disabled";
+		};
+
+		dcan2: can@481d0000 {
+			compatible = "ti,dra7-d_can";
+			ti,hwmods = "dcan2";
+			reg = <0x48480000 0x2000>;
+			syscon-raminit = <&dra7_ctrl_core 0x558 1>;
+			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&sys_clkin1>;
+			status = "disabled";
+		};
+	};
+};
+
+/include/ "dra7xx-clocks.dtsi"
+			usb2: usb@488d0000 {
+				compatible = "snps,dwc3";
+				reg = <0x488d0000 0x17000>;
+				interrupts = <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>;
+				phys = <&usb2_phy2>;
+				phy-names = "usb2-phy";
+				tx-fifo-resize;
+				maximum-speed = "high-speed";
+				dr_mode = "otg";
+				snps,dis_u3_susphy_quirk;
+				snps,dis_u2_susphy_quirk;
+			};
+		};
+
+		/* IRQ for DWC3_3 and DWC3_4 need IRQ crossbar */
+		omap_dwc3_3: omap_dwc3_3@48900000 {
+			compatible = "ti,dwc3";
+			ti,hwmods = "usb_otg_ss3";
+			reg = <0x48900000 0x10000>;
+			interrupts = <GIC_SPI 344 IRQ_TYPE_LEVEL_HIGH>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			utmi-mode = <2>;
+			ranges;
+			status = "disabled";
+			usb3: usb@48910000 {
+				compatible = "snps,dwc3";
+				reg = <0x48910000 0x17000>;
+				interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
+				tx-fifo-resize;
+				maximum-speed = "high-speed";
+				dr_mode = "otg";
+				snps,dis_u3_susphy_quirk;
+				snps,dis_u2_susphy_quirk;
+			};
+		};
+
+		elm: elm@48078000 {
+			compatible = "ti,am3352-elm";
+			reg = <0x48078000 0xfc0>;      /* device IO registers */
+			interrupts = <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
+			ti,hwmods = "elm";
+			status = "disabled";
+		};
+
+		gpmc: gpmc@50000000 {
+			compatible = "ti,am3352-gpmc";
+			ti,hwmods = "gpmc";
+			reg = <0x50000000 0x37c>;      /* device IO registers */
+			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
+			gpmc,num-cs = <8>;
+			gpmc,num-waitpins = <2>;
+			#address-cells = <2>;
+			#size-cells = <1>;
+			status = "disabled";
+		};
+
+		atl: atl@4843c000 {
+			compatible = "ti,dra7-atl";
+			reg = <0x4843c000 0x3ff>;
+			ti,hwmods = "atl";
+			ti,provided-clocks = <&atl_clkin0_ck>, <&atl_clkin1_ck>,
+					     <&atl_clkin2_ck>, <&atl_clkin3_ck>;
+			clocks = <&atl_gfclk_mux>;
+			clock-names = "fck";
+			status = "disabled";
+		};
+
+		crossbar_mpu: crossbar@4a020000 {
+			compatible = "ti,irq-crossbar";
+			reg = <0x4a002a48 0x130>;
+			ti,max-irqs = <160>;
+			ti,max-crossbar-sources = <MAX_SOURCES>;
+			ti,reg-size = <2>;
+			ti,irqs-reserved = <0 1 2 3 5 6 131 132>;
+			ti,irqs-skip = <10 133 139 140>;
+			ti,irqs-safe-map = <0>;
+		};
+
+		mac: ethernet@4a100000 {
+			compatible = "ti,cpsw";
+			ti,hwmods = "gmac";
+			clocks = <&dpll_gmac_ck>, <&gmac_gmii_ref_clk_div>;
+			clock-names = "fck", "cpts";
+			cpdma_channels = <8>;
+			ale_entries = <1024>;
+			bd_ram_size = <0x2000>;
+			no_bd_ram = <0>;
+			rx_descs = <64>;
+			mac_control = <0x20>;
+			slaves = <2>;
+			active_slave = <0>;
+			cpts_clock_mult = <0x80000000>;
+			cpts_clock_shift = <29>;
+			reg = <0x48484000 0x1000
+			       0x48485200 0x2E00>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			/*
+			 * rx_thresh_pend
+			 * rx_pend
+			 * tx_pend
+			 * misc_pend
+			 */
+			interrupts = <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 336 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 337 IRQ_TYPE_LEVEL_HIGH>;
+			ranges;
+			status = "disabled";
+
+			davinci_mdio: mdio@48485000 {
+				compatible = "ti,davinci_mdio";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				ti,hwmods = "davinci_mdio";
+				bus_freq = <1000000>;
+				reg = <0x48485000 0x100>;
+			};
+
+			cpsw_emac0: slave@48480200 {
+				/* Filled in by U-Boot */
+				mac-address = [ 00 00 00 00 00 00 ];
+			};
+
+			cpsw_emac1: slave@48480300 {
+				/* Filled in by U-Boot */
+				mac-address = [ 00 00 00 00 00 00 ];
+			};
+
+			phy_sel: cpsw-phy-sel@4a002554 {
+				compatible = "ti,dra7xx-cpsw-phy-sel";
+				reg= <0x4a002554 0x4>;
+				reg-names = "gmii-sel";
+			};
+		};
+
+		dcan1: can@481cc000 {
+			compatible = "ti,dra7-d_can";
+			ti,hwmods = "dcan1";
+			reg = <0x4ae3c000 0x2000>;
+			syscon-raminit = <&dra7_ctrl_core 0x558 0>;
+			interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&dcan1_sys_clk_mux>;
+			status = "disabled";
+		};
+
+		dcan2: can@481d0000 {
+			compatible = "ti,dra7-d_can";
+			ti,hwmods = "dcan2";
+			reg = <0x48480000 0x2000>;
+			syscon-raminit = <&dra7_ctrl_core 0x558 1>;
+			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&sys_clkin1>;
+			status = "disabled";
+		};
+	};
+};
+
+/include/ "dra7xx-clocks.dtsi"
+			usb3: usb@48910000 {
+				compatible = "snps,dwc3";
+				reg = <0x48910000 0x17000>;
+				interrupts = <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
+				tx-fifo-resize;
+				maximum-speed = "high-speed";
+				dr_mode = "otg";
+				snps,dis_u3_susphy_quirk;
+				snps,dis_u2_susphy_quirk;
+			};
+		};
+
+		elm: elm@48078000 {
+			compatible = "ti,am3352-elm";
+			reg = <0x48078000 0xfc0>;      /* device IO registers */
+			interrupts = <GIC_SPI 1 IRQ_TYPE_LEVEL_HIGH>;
+			ti,hwmods = "elm";
+			status = "disabled";
+		};
+
+		gpmc: gpmc@50000000 {
+			compatible = "ti,am3352-gpmc";
+			ti,hwmods = "gpmc";
+			reg = <0x50000000 0x37c>;      /* device IO registers */
+			interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
+			gpmc,num-cs = <8>;
+			gpmc,num-waitpins = <2>;
+			#address-cells = <2>;
+			#size-cells = <1>;
+			status = "disabled";
+		};
+
+		atl: atl@4843c000 {
+			compatible = "ti,dra7-atl";
+			reg = <0x4843c000 0x3ff>;
+			ti,hwmods = "atl";
+			ti,provided-clocks = <&atl_clkin0_ck>, <&atl_clkin1_ck>,
+					     <&atl_clkin2_ck>, <&atl_clkin3_ck>;
+			clocks = <&atl_gfclk_mux>;
+			clock-names = "fck";
+			status = "disabled";
+		};
+
+		crossbar_mpu: crossbar@4a020000 {
+			compatible = "ti,irq-crossbar";
+			reg = <0x4a002a48 0x130>;
+			ti,max-irqs = <160>;
+			ti,max-crossbar-sources = <MAX_SOURCES>;
+			ti,reg-size = <2>;
+			ti,irqs-reserved = <0 1 2 3 5 6 131 132>;
+			ti,irqs-skip = <10 133 139 140>;
+			ti,irqs-safe-map = <0>;
+		};
+
+		mac: ethernet@4a100000 {
+			compatible = "ti,cpsw";
+			ti,hwmods = "gmac";
+			clocks = <&dpll_gmac_ck>, <&gmac_gmii_ref_clk_div>;
+			clock-names = "fck", "cpts";
+			cpdma_channels = <8>;
+			ale_entries = <1024>;
+			bd_ram_size = <0x2000>;
+			no_bd_ram = <0>;
+			rx_descs = <64>;
+			mac_control = <0x20>;
+			slaves = <2>;
+			active_slave = <0>;
+			cpts_clock_mult = <0x80000000>;
+			cpts_clock_shift = <29>;
+			reg = <0x48484000 0x1000
+			       0x48485200 0x2E00>;
+			#address-cells = <1>;
+			#size-cells = <1>;
+			/*
+			 * rx_thresh_pend
+			 * rx_pend
+			 * tx_pend
+			 * misc_pend
+			 */
+			interrupts = <GIC_SPI 334 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 335 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 336 IRQ_TYPE_LEVEL_HIGH>,
+				     <GIC_SPI 337 IRQ_TYPE_LEVEL_HIGH>;
+			ranges;
+			status = "disabled";
+
+			davinci_mdio: mdio@48485000 {
+				compatible = "ti,davinci_mdio";
+				#address-cells = <1>;
+				#size-cells = <0>;
+				ti,hwmods = "davinci_mdio";
+				bus_freq = <1000000>;
+				reg = <0x48485000 0x100>;
+			};
+
+			cpsw_emac0: slave@48480200 {
+				/* Filled in by U-Boot */
+				mac-address = [ 00 00 00 00 00 00 ];
+			};
+
+			cpsw_emac1: slave@48480300 {
+				/* Filled in by U-Boot */
+				mac-address = [ 00 00 00 00 00 00 ];
+			};
+
+			phy_sel: cpsw-phy-sel@4a002554 {
+				compatible = "ti,dra7xx-cpsw-phy-sel";
+				reg= <0x4a002554 0x4>;
+				reg-names = "gmii-sel";
+			};
+		};
+
+		dcan1: can@481cc000 {
+			compatible = "ti,dra7-d_can";
+			ti,hwmods = "dcan1";
+			reg = <0x4ae3c000 0x2000>;
+			syscon-raminit = <&dra7_ctrl_core 0x558 0>;
+			interrupts = <GIC_SPI 222 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&dcan1_sys_clk_mux>;
+			status = "disabled";
+		};
+
+		dcan2: can@481d0000 {
+			compatible = "ti,dra7-d_can";
+			ti,hwmods = "dcan2";
+			reg = <0x48480000 0x2000>;
+			syscon-raminit = <&dra7_ctrl_core 0x558 1>;
+			interrupts = <GIC_SPI 225 IRQ_TYPE_LEVEL_HIGH>;
+			clocks = <&sys_clkin1>;
+			status = "disabled";
+		};
+	};
+};
+
+/include/ "dra7xx-clocks.dtsi"

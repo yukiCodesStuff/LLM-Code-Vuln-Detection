@@ -1,0 +1,20 @@
+	sound {
+		compatible = "atmel,asoc-wm8904";
+		pinctrl-names = "default";
+		pinctrl-0 = <&pinctrl_pck0_as_audio_mck>;
+
+		atmel,model = "wm8904 @ SAMA5D3EK";
+		atmel,audio-routing =
+			"Headphone Jack", "HPOUTL",
+			"Headphone Jack", "HPOUTR",
+			"IN2L", "Line In Jack",
+			"IN2R", "Line In Jack",
+			"Mic", "MICBIAS",
+			"IN1L", "Mic";
+
+		atmel,ssc-controller = <&ssc0>;
+		atmel,audio-codec = <&wm8904>;
+
+		status = "disabled";
+	};
+};

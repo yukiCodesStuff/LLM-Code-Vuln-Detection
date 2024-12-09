@@ -1,0 +1,8 @@
+	LIBMAGIC_SOURCES=" apprentice.c apptype.c ascmagic.c \
+			cdf.c cdf_time.c compress.c \
+			encoding.c fsmagic.c funcs.c \
+			is_json.c is_tar.c magic.c print.c \
+			readcdf.c softmagic.c der.c \
+			strcasestr.c buffer.c is_csv.c";
+
+	EXTENSION('fileinfo', 'fileinfo.c php_libmagic.c', true, "/I" + configure_module_dirname + "/libmagic /I" + configure_module_dirname);

@@ -1,0 +1,16 @@
+    actionpack (6.1.0.alpha)
+      actionview (= 6.1.0.alpha)
+      activesupport (= 6.1.0.alpha)
+      rack (~> 2.0, >= 2.0.8)
+      rack-test (>= 0.6.3)
+      rails-dom-testing (~> 2.0)
+      rails-html-sanitizer (~> 1.0, >= 1.2.0)
+    actiontext (6.1.0.alpha)
+      thor
+    raabro (1.1.6)
+    racc (1.4.15)
+    rack (2.0.8)
+    rack-cache (1.9.0)
+      rack (>= 0.4)
+    rack-protection (2.0.7)
+      rack

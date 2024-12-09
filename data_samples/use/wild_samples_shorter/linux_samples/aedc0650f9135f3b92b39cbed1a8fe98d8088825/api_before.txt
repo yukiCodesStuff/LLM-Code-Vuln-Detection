@@ -1,0 +1,14 @@
+----------------------
+
+The kvm API is a set of ioctls that are issued to control various aspects
+of a virtual machine.  The ioctls belong to three classes:
+
+ - System ioctls: These query and set global attributes which affect the
+   whole kvm subsystem.  In addition a system ioctl is used to create
+   virtual machines.
+#define KVM_PMU_EVENT_ALLOW 0
+#define KVM_PMU_EVENT_DENY 1
+
+
+5. The kvm_run structure
+------------------------

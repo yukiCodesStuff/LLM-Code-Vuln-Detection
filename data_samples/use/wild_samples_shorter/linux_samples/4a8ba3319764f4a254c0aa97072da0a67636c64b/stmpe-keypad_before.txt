@@ -1,0 +1,7 @@
+ - debounce-interval        : Debouncing interval time in milliseconds
+ - st,scan-count            : Scanning cycles elapsed before key data is updated
+ - st,no-autorepeat         : If specified device will not autorepeat
+
+Example:
+
+	stmpe_keypad {

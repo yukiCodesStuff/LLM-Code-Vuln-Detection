@@ -1,0 +1,6 @@
+
+                  ...
+                     if ((isUser = AuthenticateUser(username, password)) == FAIL) {
+                     ...
+               
+            

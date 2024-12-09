@@ -1,0 +1,18 @@
+	status = "okay";
+
+	pinctrl-names = "default";
+	pinctrl-0 = <&pins_uart3>;
+};
+
+&uart4 {
+	status = "okay";
+		bias-disable;
+	};
+
+	pins_uart3: uart3 {
+		function = "uart3";
+		groups = "uart3-data", "uart3-hwflow";
+		bias-disable;
+	};
+
+	pins_uart4: uart4 {

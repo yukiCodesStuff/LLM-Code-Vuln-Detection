@@ -1,0 +1,7 @@
+
+#endif
+
+.macro STACKLEAK_ERASE_NOCLOBBER
+#ifdef CONFIG_GCC_PLUGIN_STACKLEAK
+	PUSH_AND_CLEAR_REGS
+	call stackleak_erase

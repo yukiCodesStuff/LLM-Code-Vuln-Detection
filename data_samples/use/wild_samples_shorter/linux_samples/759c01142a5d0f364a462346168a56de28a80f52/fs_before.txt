@@ -1,0 +1,14 @@
+- nr_open
+- overflowuid
+- overflowgid
+- protected_hardlinks
+- protected_symlinks
+- suid_dumpable
+- super-max
+
+==============================================================
+
+protected_hardlinks:
+
+A long-standing class of security issues is the hardlink-based
+time-of-check-time-of-use race, most commonly seen in world-writable

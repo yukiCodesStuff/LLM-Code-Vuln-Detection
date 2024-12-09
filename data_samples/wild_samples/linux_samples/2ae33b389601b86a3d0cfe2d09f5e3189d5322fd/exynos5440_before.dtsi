@@ -1,0 +1,19 @@
+		pdma0: pdma@121A0000 {
+			compatible = "arm,pl330", "arm,primecell";
+			reg = <0x120000 0x1000>;
+			interrupts = <0 34 0>;
+		};
+
+		pdma1: pdma@121B0000 {
+			compatible = "arm,pl330", "arm,primecell";
+			reg = <0x121000 0x1000>;
+			interrupts = <0 35 0>;
+		};
+	};
+
+	rtc {
+		compatible = "samsung,s3c6410-rtc";
+		reg = <0x130000 0x1000>;
+		interrupts = <0 17 0>, <0 16 0>;
+	};
+};

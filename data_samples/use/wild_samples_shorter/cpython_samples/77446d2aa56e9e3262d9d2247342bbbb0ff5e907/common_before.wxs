@@ -1,0 +1,12 @@
+    </Fragment>
+    
+    <Fragment>
+    <?ifdef InstallDirectoryGuidSeed ?>
+        <Directory Id="TARGETDIR" Name="SourceDir">
+            <Directory Id="InstallDirectory" ComponentGuidGenerationSeed="$(var.InstallDirectoryGuidSeed)" />
+        </Directory>
+    <?endif ?>
+    </Fragment>
+    
+    <!-- Top-level directories -->
+    <Fragment>

@@ -1,0 +1,7 @@
+			fully seed the kernel's CRNG. Default is controlled
+			by CONFIG_RANDOM_TRUST_CPU.
+
+	ras=option[,option,...]	[KNL] RAS-specific options
+
+		cec_disable	[X86]
+				Disable the Correctable Errors Collector,

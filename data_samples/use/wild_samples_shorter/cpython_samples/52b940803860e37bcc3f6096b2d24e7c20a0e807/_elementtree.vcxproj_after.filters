@@ -1,0 +1,7 @@
+    <ClInclude Include="..\Modules\expat\latin1tab.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Modules\expat\macconfig.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\Modules\expat\nametab.h">

@@ -1,0 +1,9 @@
+
+                  <struts-config>
+                        <form-beans><form-bean name="RegistrationForm" type="RegistrationForm"/></form-beans>
+                        ...
+                        <!-- ========================= Validator plugin ================================= --><plug-in className="org.apache.struts.validator.ValidatorPlugIn"><set-propertyproperty="pathnames"value="/WEB-INF/validator-rules.xml,/WEB-INF/validation.xml"/>
+                        </plug-in>
+                     </struts-config>
+               
+            

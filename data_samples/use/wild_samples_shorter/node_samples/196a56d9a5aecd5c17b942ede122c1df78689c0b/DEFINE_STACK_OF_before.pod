@@ -1,0 +1,15 @@
+STACK_OF(), DEFINE_STACK_OF(), DEFINE_STACK_OF_CONST(), and
+DEFINE_SPECIAL_STACK_OF() are implemented as macros.
+
+The underlying utility B<OPENSSL_sk_> API should not be used directly.
+It defines these functions: OPENSSL_sk_deep_copy(),
+OPENSSL_sk_delete(), OPENSSL_sk_delete_ptr(), OPENSSL_sk_dup(),
+OPENSSL_sk_find(), OPENSSL_sk_find_ex(), OPENSSL_sk_find_all(),
+
+=head1 COPYRIGHT
+
+Copyright 2000-2021 The OpenSSL Project Authors. All Rights Reserved.
+
+Licensed under the Apache License 2.0 (the "License").  You may not use
+this file except in compliance with the License.  You can obtain a copy
+in the file LICENSE in the source distribution or at
